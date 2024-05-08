@@ -1,90 +1,54 @@
-import React, { useEffect } from "react";
+import * as React from "react";
 import { useSelector } from "react-redux";
 import useStockRequest from "../services/useStockRequest";
-import { Box, Container, Typography } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
-import Collapse from "@mui/material/Collapse";
-import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
-import { red } from "@mui/material/colors";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { Box, Typography } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
+import FirmDetailModal from "../components/FirmDetailModal";
 
-const ExpandMore = styled((props) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-  marginLeft: "auto",
-  transition: theme.transitions.create("transform", {
-    duration: theme.transitions.duration.shortest,
-  }),
-}));
 
 const ListFirms = () => {
-  const [expanded, setExpanded] = React.useState(false);
+  const [selectedFirm, setSelectedFirm] = React.useState(null)
+  const [showModal, setShowModal] = React.useState(false)
   const { firms } = useSelector((state) => state.getfirms);
   const { getFirms } = useStockRequest();
-  // console.log(firms)
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
+  const columns = [
+    { field: "name", headerName: "Name", width: 500 },
+    { field: "phone", headerName: "Phone", width: 200 },
+  ];
 
-  useEffect(() => {
+  const rows = firms.map((firm) => ({ name: firm.name, phone: firm.phone }));
+
+  const handleRowClick = (row) => {
+    setSelectedFirm(row)
+    setShowModal(true)
+  }
+
+  const closeModal = () => {
+    setShowModal(false)
+  }
+  React.useEffect(() => {
     getFirms();
   }, []);
-  return (
-    <Container>
-      <Typography>FİRMS</Typography>
 
-      <Box>
-        {firms.map((firm) => (
-          <Card key={firm.id} sx={{ maxWidth: 345 }}>
-            <CardHeader
-              title={firm.name}
-              sx={{textAlign:"center"}}
-            />
-            <CardMedia
-              component="img"
-              height="194"
-              image={firm.image}
-              alt="Paella dish"
-              sx={{ objectFit: "contain" }}
-            />
-            <CardContent>
-              <Typography variant="body2" color="text.secondary">
-                {firm.address}
-              </Typography>
-            </CardContent>
-            <CardActions disableSpacing>
-              <IconButton aria-label="add to favorites">
-                <FavoriteIcon />
-              </IconButton>
-              <IconButton aria-label="share">
-                <ShareIcon />
-              </IconButton>
-              <ExpandMore
-                expand={expanded}
-                onClick={handleExpandClick}
-                aria-expanded={expanded}
-                aria-label="show more"
-              >
-                <ExpandMoreIcon />
-              </ExpandMore>
-            </CardActions>
-        
-          </Card>
-        ))}
+  
+  return (
+    <>
+      {" "}
+      <Typography textAlign={"center"} color={"brown"} variant="h5" fontWeight={"bold"} textTransform={"uppercase"}>List Of Firms</Typography>
+      <Box style={{ height: "70vh", width: "70%", margin: "auto" }}>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          pageSize={5}
+          checkboxSelection
+          getRowId={(row) => row.name} //! Her satırı ismiyle kimliklendirme
+          onRowClick={handleRowClick}
+        />
       </Box>
-    </Container>
+      <Typography fontSize={"14px"} mt={2} textAlign={"end"} pr={23} color={"brown"}>Click on a firm row for firm details.</Typography>
+      <FirmDetailModal open={showModal} handleClose={closeModal} firm={selectedFirm}/>
+    </>
   );
 };
 
