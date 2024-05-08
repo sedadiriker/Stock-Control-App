@@ -32,6 +32,10 @@ const firmSlice = createSlice({
             return firm
         })
         },
+        addFirmSuccess : (state,{payload}) => {
+            state.loading = false;
+            state.firms.push(payload.data)
+        },
         fetchFail: (state) => {
             state.loading = false
             state.error = true
@@ -39,6 +43,6 @@ const firmSlice = createSlice({
     }
 });
 
-export const { fetchFail, firmsList, fetchStart,deleteFirmSuccess,editSuccess } = firmSlice.actions
+export const { fetchFail, firmsList, fetchStart,deleteFirmSuccess,editSuccess,addFirmSuccess } = firmSlice.actions
 
 export default firmSlice.reducer
