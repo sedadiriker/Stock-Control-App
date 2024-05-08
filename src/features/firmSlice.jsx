@@ -17,6 +17,21 @@ const firmSlice = createSlice({
             state.loading = false
             state.firms = payload.data
         },
+        deleteFirmSuccess : (state , {payload}) => {
+            state.loading = false
+            state.firms = payload.data
+        },
+        editSuccess:(state,{payload}) => {
+        state.loading = false
+        
+        const updatedFirm = payload.data
+        state.firms = state.firms.map(firm => {
+            if(firm.id === updatedFirm.id) {
+                return updatedFirm
+            }
+            return firm
+        })
+        },
         fetchFail: (state) => {
             state.loading = false
             state.error = true
@@ -24,6 +39,6 @@ const firmSlice = createSlice({
     }
 });
 
-export const { fetchFail, firmsList, fetchStart } = firmSlice.actions
+export const { fetchFail, firmsList, fetchStart,deleteFirmSuccess,editSuccess } = firmSlice.actions
 
 export default firmSlice.reducer

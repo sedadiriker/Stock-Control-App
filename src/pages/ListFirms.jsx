@@ -17,7 +17,7 @@ const ListFirms = () => {
     { field: "phone", headerName: "Phone", width: 200 },
   ];
 
-  const rows = firms.map((firm) => ({ name: firm.name, phone: firm.phone }));
+  const rows = firms?.map((firm) => ({ name: firm?.name, phone: firm?.phone }));
 
   const handleRowClick = (row) => {
     setSelectedFirm(row)
@@ -29,7 +29,7 @@ const ListFirms = () => {
   }
   React.useEffect(() => {
     getFirms();
-  }, []);
+  }, [firms]);
 
   
   return (
