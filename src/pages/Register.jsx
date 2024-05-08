@@ -5,7 +5,7 @@ import { Form, Formik } from "formik";
 import { Link } from "react-router-dom";
 import { object, string } from "yup";
 const Register = () => {
-  const loginSchema = object({
+  const registerSchema = object({
     email: string()
       .email("Please enter a valid email")
       .required("Email is required"),
@@ -18,7 +18,20 @@ const Register = () => {
         /[a-z]+/,
         "The password must contain at least one lowercase letter"
       )
-
+      .matches(
+        /[A-Z]+/,
+        "The password must contain at least one uppercase letter"
+      )
+      .matches(
+        /[@$!%*?&]+/,
+        "The password must contain at least one special character(@$!%*?&)"
+      ),
+    username: string()
+      .required("Username is required")
+      .min(6, "Username must be at least 6 characters")
+      .max(12, "Username must be at most 10 characters"),
+    first_name: string().required("firstname is required"),
+    last_name: string().required("lastname is required"),
   });
   return (
     <Box
@@ -51,8 +64,14 @@ const Register = () => {
         </Typography>
 
         <Formik
-            initialValues={{ email: "", password: "" }}
-            validationSchema={loginSchema}
+            initialValues={{
+              username: "",
+              firstName: "",
+              lastName: "",
+              email: "",
+              password: "",
+            }}
+            validationSchema={registerSchema}
             onSubmit={(values, actions) => {
               actions.resetForm();
               actions.setSubmitting(false);
@@ -68,8 +87,101 @@ const Register = () => {
             }) => (
               <Form>
                 <Box width={"60%"} m={"auto"} sx={{ display: "flex", flexDirection: "column", gap: 2, backgroundColor:"rgba(0, 0, 0, 0.7)", py:"3rem", px:"1.5rem", borderRadius:"10px" }}>
+                <TextField
+                    label="User Name *"
+                    name="username"
+                    id="userName"
+                    type="text"
+                    variant="outlined"
+                    value={values.displayName}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={touched.username && Boolean(errors.username)}
+                    helperText={touched.username && errors.username}
+                    InputProps={{
+                      sx: {
+                        color: "white",
+                        "& .MuiOutlinedInput-notchedOutline": {
+                          borderColor: "white",
+                        },
+                        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                          borderColor: "#37B3E2",
+                        },
+                        "&:hover .MuiOutlinedInput-notchedOutline": {
+                          borderColor: "#37B3E2",
+                        },
+                      },
+                    }}
+                    InputLabelProps={{
+                      sx: {
+                        color: "white",
+                      },
+                    }}
+                  />
                   <TextField
-                    label="Email"
+                    label="First Name *"
+                    name="first_name"
+                    id="firstName"
+                    type="text"
+                    variant="outlined"
+                    value={values.first_name}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={touched.first_name && Boolean(errors.first_name)}
+                    helperText={touched.first_name && errors.first_name}
+                    InputProps={{
+                      sx: {
+                        color: "white",
+                        "& .MuiOutlinedInput-notchedOutline": {
+                          borderColor: "white",
+                        },
+                        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                          borderColor: "#37B3E2",
+                        },
+                        "&:hover .MuiOutlinedInput-notchedOutline": {
+                          borderColor: "#37B3E2",
+                        },
+                      },
+                    }}
+                    InputLabelProps={{
+                      sx: {
+                        color: "white",
+                      },
+                    }}
+                  />
+                  <TextField
+                    label="Last Name *"
+                    name="last_name"
+                    id="last_name"
+                    type="text"
+                    variant="outlined"
+                    value={values.last_name}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={touched.last_name && Boolean(errors.last_name)}
+                    helperText={touched.last_name && errors.last_name}
+                    InputProps={{
+                      sx: {
+                        color: "white",
+                        "& .MuiOutlinedInput-notchedOutline": {
+                          borderColor: "white",
+                        },
+                        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                          borderColor: "#37B3E2",
+                        },
+                        "&:hover .MuiOutlinedInput-notchedOutline": {
+                          borderColor: "#37B3E2",
+                        },
+                      },
+                    }}
+                    InputLabelProps={{
+                      sx: {
+                        color: "white",
+                      },
+                    }}
+                  />
+                  <TextField
+                    label="Email *"
                     name="email"
                     id="email"
                     type="email"
@@ -86,10 +198,10 @@ const Register = () => {
                           borderColor: "white",
                         },
                         "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                          borderColor: "warning",
+                          borderColor: "#37B3E2",
                         },
                         "&:hover .MuiOutlinedInput-notchedOutline": {
-                          borderColor: "logoColor",
+                          borderColor: "#37B3E2",
                         },
                       },
                     }}
@@ -99,9 +211,8 @@ const Register = () => {
                       },
                     }}
                   />
-                  
                   <TextField
-                    label="Password"
+                    label="Password *"
                     name="password"
                     id="password"
                     type="password"
@@ -118,10 +229,10 @@ const Register = () => {
                           borderColor: "white",
                         },
                         "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                          borderColor: "warning", 
+                          borderColor: "#37B3E2",
                         },
                         "&:hover .MuiOutlinedInput-notchedOutline": {
-                          borderColor: "logoColor", 
+                          borderColor: "#37B3E2",
                         },
                       },
                     }}
@@ -131,11 +242,6 @@ const Register = () => {
                       },
                     }}
                   />
-                  <Box style={{ textAlign: "right" }}>
-                    <Link style={{ color: "#11B4BB", display: "inline" }}>
-                      Forgot password
-                    </Link>
-                  </Box>
                   <Button
                     variant="contained"
                     type="submit"
@@ -143,10 +249,10 @@ const Register = () => {
                     color="primary"
                     sx={{width:"30%", m:"auto"}}
                   >
-                    Submit
+                    Register
                   </Button>
                   <Box sx={{ textAlign: "center", mt:2 }}>
-            <Link to="/register" style={{color:"#a0d6e8"}}>Do you have not an account?</Link>
+            <Link to="/" style={{color:"#a0d6e8"}}>Do you have an account?</Link>
           </Box>
                 </Box>
               </Form>
