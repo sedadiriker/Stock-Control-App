@@ -53,8 +53,12 @@ const DrawerList = ({ handleClickPath }) => {
   const [selectedMenu, setSelectedMenu] = React.useState(null);
 
   const handleMenuClick = (event, index) => {
-    setAnchorEl(event.currentTarget);
-    setSelectedMenu(index);
+    if (index !== 0) {
+      setAnchorEl(event.currentTarget);
+      setSelectedMenu(index);
+    } else {
+      handleClickPath("/stock");
+    }
   };
 
   const handleClose = () => {
@@ -99,7 +103,6 @@ const DrawerList = ({ handleClickPath }) => {
     <List>
       {icons.map((item, index) => (
         <ListItem key={index} disablePadding>
-          
           <ListItemButton
             sx={{
               color: "white",
@@ -114,7 +117,7 @@ const DrawerList = ({ handleClickPath }) => {
           >
             <ListItemIcon>{item.icon}</ListItemIcon>
             {item.title}
-            <KeyboardArrowDownIcon sx={{ ml: "auto" }} />
+            {index !== 0 && <KeyboardArrowDownIcon sx={{ ml: "auto" }} />}
           </ListItemButton>
           <StyledMenu
             id="demo-customized-menu"

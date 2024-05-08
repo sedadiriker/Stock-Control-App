@@ -96,8 +96,8 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function MiniDrawer() {
-  const { user } = useSelector((state) => state.auth);
-  // console.log(user);
+  const { user,token } = useSelector((state) => state.auth);
+  console.log(token);
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -232,7 +232,7 @@ const navigate = useNavigate()
               )}
             </IconButton>
           </DrawerHeader>
-          <DrawerList handleClickPath={handleClickPath} />
+          <DrawerList handleClickPath={handleClickPath}/>
         </Paper>
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
