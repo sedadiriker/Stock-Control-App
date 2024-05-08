@@ -2,7 +2,7 @@
 const Firms = () => {
   return (
     <div>
-      
+      Firm
     </div>
   )
 }
