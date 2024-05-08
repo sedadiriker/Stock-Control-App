@@ -108,7 +108,7 @@ const FirmDetailModal = ({ open, handleClose, firm }) => {
                                 onChange={handleChange}
                             />
                         )}
-                        sx={{ textAlign: "center", color: "#0000FF", textTransform: "uppercase" }}
+                        sx={{ textAlign: "center", color: "white", textTransform: "uppercase", backgroundColor:"#03215A" }}
                     />
                     {!editMode ? (
                         <CardMedia
@@ -128,7 +128,7 @@ const FirmDetailModal = ({ open, handleClose, firm }) => {
                         />
                     )}
                     <CardContent>
-                        <Typography variant="body2" color="text.secondary">
+                        <Typography sx={{display:"flex", justifyContent:"center", gap:"1rem", alignItems:"center"}} variant="body2" color="text.secondary">
                             <ContactPhoneIcon sx={{ color: "#03215A" }} /> {!editMode ? selectedFirm?.phone : (
                                 <TextField
                                     id="phone"

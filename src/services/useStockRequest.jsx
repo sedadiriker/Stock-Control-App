@@ -2,12 +2,13 @@ import { useDispatch } from "react-redux"
 import useAxios from "./useAxios"
 import { addFirmSuccess, deleteFirmSuccess, editSuccess, fetchFail, fetchStart, firmsList } from "../features/firmSlice"
 import { toastSuccessNotify, toastErrorNotify } from "../helper/ToastNotify";
+import { brandsList } from "../features/brandSlice";
 
 const useStockRequest = () => {
   const { axiosToken } = useAxios()
   const dispatch = useDispatch()
 
-
+//!FİRMS
   const getFirms = async () => {
     dispatch(fetchStart())
     try {
@@ -63,7 +64,21 @@ const useStockRequest = () => {
     }
   }
 
-  return { getFirms,deleteFirm,editFirm,addFirm }
+  //! BRANDS
+  const getBrands = async () => {
+    dispatch(fetchStart())
+    try {
+      const { data } =await axiosToken.get("/brands")
+      // console.log(data)
+        dispatch(brandsList(data))
+    } catch (error) {
+        dispatch(fetchFail())
+        toastErrorNotify("Failed to loading brands.");
+      console.log(error)
+    }
+  }
+  
+  return { getFirms,deleteFirm,editFirm,addFirm,getBrands }
 }
 
 export default useStockRequest
