@@ -12,15 +12,21 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Avatar, Badge, Button, Menu, MenuItem, Paper } from "@mui/material";
 import DrawerList from "../components/DrawerList";
-import Firms from "./Firms";
 import Home from "./Home";
 import { Dashboard } from "@mui/icons-material";
-import Purchases from "./Purchases";
-import Sales from "./Sales";
-import Brands from "./Brands";
-import Products from "./Products";
 import { useSelector } from "react-redux";
 import useApiRequest from "../services/useApiRequest";
+import AddBrand from "./AddBrand";
+import AddPurchase from "./AddPurchase";
+import AddSales from "./AddSales";
+import AddFirm from "./AddFirm";
+import AddProduct from "./AddProduct";
+import { useNavigate } from "react-router";
+import ListProducts from "./ListProducts";
+import ListBrands from "./ListBrands";
+import ListFirms from "./ListFirms";
+import ListPurchases from "./ListPurchases";
+import ListSales from "./ListSales";
 
 const drawerWidth = 240;
 
@@ -99,6 +105,7 @@ export default function MiniDrawer() {
   const [selectedPath, setSelectedPath] = React.useState("/stock");
   const {logout} = useApiRequest()
 
+  console.log(selectedPath)
   // profil dropdown
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -136,8 +143,9 @@ export default function MiniDrawer() {
       },
     },
   }));
-
+const navigate = useNavigate()
   const handleClickPath = (path) => {
+    navigate(path)
     setSelectedPath(path);
   };
 
@@ -229,18 +237,27 @@ export default function MiniDrawer() {
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
-        {selectedPath === "/stock" ? (
-          <Dashboard />
-        ) : selectedPath === "/stock/purchases/" ? (
-          <Purchases />
-        ) : selectedPath === "/stock/sales/" ? (
-          <Sales />
-        ) : selectedPath === "/stock/firms/" ? (
-          <Firms />
-        ) : selectedPath === "/stock/brands/" ? (
-          <Brands />
-        ) : selectedPath === "/stock/products/" ? (
-          <Products />
+        
+        {selectedPath === "/stock/addpurchase" ? (
+          <AddPurchase />
+        ) : selectedPath === "/stock/addsales" ? (
+          <AddSales />
+        ) : selectedPath === "/stock/addfirm" ? (
+          <AddFirm />
+        ) : selectedPath === "/stock/addbrand" ? (
+          <AddBrand />
+        ) : selectedPath === "/stock/addproduct" ? (
+          <AddProduct />
+        ) : selectedPath === "/stock/listproducts" ? (
+          <ListProducts />
+        ) : selectedPath === "/stock/listbrands" ? (
+          <ListBrands />
+        ) : selectedPath === "/stock/listfirms" ? (
+          <ListFirms />
+        ) : selectedPath === "/stock/listpurchases" ? (
+          <ListPurchases />
+        ) : selectedPath === "/stock/listsales" ? (
+          <ListSales />
         ) : (
           <Home />
         )}
