@@ -10,7 +10,7 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { Button, Paper } from "@mui/material";
+import { Avatar, Badge, Button, Menu, MenuItem, Paper } from "@mui/material";
 import DrawerList from "../components/DrawerList";
 import Firms from "./Firms";
 import Home from "./Home";
@@ -19,6 +19,8 @@ import Purchases from "./Purchases";
 import Sales from "./Sales";
 import Brands from "./Brands";
 import Products from "./Products";
+import { useSelector } from "react-redux";
+import useApiRequest from "../services/useApiRequest";
 
 const drawerWidth = 240;
 
@@ -88,9 +90,52 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function MiniDrawer() {
+  const { user } = useSelector((state) => state.auth);
+  // console.log(user);
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const openDrop = Boolean(anchorEl);
   const [selectedPath, setSelectedPath] = React.useState("/stock");
+  const {logout} = useApiRequest()
+
+  // profil dropdown
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  // Avatar
+  const StyledBadge = styled(Badge)(({ theme }) => ({
+    "& .MuiBadge-badge": {
+      backgroundColor: "#44b700",
+      color: "#44b700",
+      boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+      "&::after": {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        borderRadius: "50%",
+        animation: "ripple 1.2s infinite ease-in-out",
+        border: "1px solid currentColor",
+        content: '""',
+      },
+    },
+    "@keyframes ripple": {
+      "0%": {
+        transform: "scale(.8)",
+        opacity: 1,
+      },
+      "100%": {
+        transform: "scale(2.4)",
+        opacity: 0,
+      },
+    },
+  }));
 
   const handleClickPath = (path) => {
     setSelectedPath(path);
@@ -134,7 +179,38 @@ export default function MiniDrawer() {
             </Typography>
           </Box>
 
-          <Button>Logout</Button>
+          {user && (
+            <Box display={"flex"}>
+              <Button
+                id="basic-button"
+                aria-controls={open ? "basic-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? "true" : undefined}
+                onClick={handleClick}
+              >
+                <StyledBadge
+                  overlap="circular"
+                  anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                  variant="dot"
+                >
+                  <Avatar sx={{ bgcolor: "blue" }}>{`${user
+                    .slice(0, 1)
+                    .toUpperCase()}`}</Avatar>
+                </StyledBadge>
+              </Button>
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={openDrop}
+                onClose={handleClose}
+                MenuListProps={{
+                  "aria-labelledby": "basic-button",
+                }}
+              >
+                <MenuItem onClick={logout}>Logout</MenuItem>
+              </Menu>
+            </Box>
+          )}
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open} sx={{ backgroundColor: "red" }}>

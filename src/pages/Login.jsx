@@ -4,8 +4,11 @@ import Container from "@mui/material/Container";
 import { Form, Formik } from "formik";
 import { Link } from "react-router-dom";
 import { object, string } from "yup";
+import useApiRequest from "../services/useApiRequest";
+import { useSelector } from "react-redux";
 
 const Login = () => {
+  const {login} = useApiRequest()
   const loginSchema = object({
     email: string()
       .email("Please enter a valid email")
@@ -55,6 +58,7 @@ const Login = () => {
             initialValues={{ email: "", password: "" }}
             validationSchema={loginSchema}
             onSubmit={(values, actions) => {
+              login(values)
               actions.resetForm();
               actions.setSubmitting(false);
             }}

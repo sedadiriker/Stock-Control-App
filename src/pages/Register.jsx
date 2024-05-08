@@ -4,7 +4,10 @@ import Container from "@mui/material/Container";
 import { Form, Formik } from "formik";
 import { Link } from "react-router-dom";
 import { object, string } from "yup";
+import useApiRequest from "../services/useApiRequest";
+
 const Register = () => {
+  const {register} = useApiRequest()
   const registerSchema = object({
     email: string()
       .email("Please enter a valid email")
@@ -73,6 +76,7 @@ const Register = () => {
             }}
             validationSchema={registerSchema}
             onSubmit={(values, actions) => {
+              register(values)
               actions.resetForm();
               actions.setSubmitting(false);
             }}
@@ -93,7 +97,7 @@ const Register = () => {
                     id="userName"
                     type="text"
                     variant="outlined"
-                    value={values.displayName}
+                    value={values.username}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.username && Boolean(errors.username)}
@@ -120,15 +124,15 @@ const Register = () => {
                   />
                   <TextField
                     label="First Name *"
-                    name="first_name"
+                    name="firstName"
                     id="firstName"
                     type="text"
                     variant="outlined"
-                    value={values.first_name}
+                    value={values.firstName}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    error={touched.first_name && Boolean(errors.first_name)}
-                    helperText={touched.first_name && errors.first_name}
+                    error={touched.firstName && Boolean(errors.firstName)}
+                    helperText={touched.firstName && errors.firstName}
                     InputProps={{
                       sx: {
                         color: "white",
@@ -151,15 +155,15 @@ const Register = () => {
                   />
                   <TextField
                     label="Last Name *"
-                    name="last_name"
+                    name="lastName"
                     id="last_name"
                     type="text"
                     variant="outlined"
-                    value={values.last_name}
+                    value={values.lastName}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    error={touched.last_name && Boolean(errors.last_name)}
-                    helperText={touched.last_name && errors.last_name}
+                    error={touched.lastName && Boolean(errors.lastName)}
+                    helperText={touched.lastName && errors.lastName}
                     InputProps={{
                       sx: {
                         color: "white",
