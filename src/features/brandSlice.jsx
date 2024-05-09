@@ -32,6 +32,10 @@ const brandSlice = createSlice({
       state.loading = false
       state.brands = payload.data
     },
+    addBrandSuccess : (state,{payload}) => {
+      state.loading = false;
+      state.brands.push(payload.data)
+  },
     fetchFail: (state) => {
         state.loading = false
         state.error = true
@@ -39,6 +43,6 @@ const brandSlice = createSlice({
   }
 });
 
-export const {fetchStart, brandsList,fetchFail,editBrandsSuccess,deleteBrandSuccess} = brandSlice.actions
+export const {fetchStart, brandsList,fetchFail,editBrandsSuccess,deleteBrandSuccess,addBrandSuccess} = brandSlice.actions
 
 export default brandSlice.reducer

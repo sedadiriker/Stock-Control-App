@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux"
 import useAxios from "./useAxios"
 import { addFirmSuccess, deleteFirmSuccess, editSuccess, fetchFail, fetchStart, firmsList } from "../features/firmSlice"
 import { toastSuccessNotify, toastErrorNotify } from "../helper/ToastNotify";
-import { brandsList, deleteBrandSuccess, editBrandsSuccess } from "../features/brandSlice";
+import { addBrandSuccess, brandsList, deleteBrandSuccess, editBrandsSuccess } from "../features/brandSlice";
 
 const useStockRequest = () => {
   const { axiosToken } = useAxios()
@@ -84,7 +84,6 @@ const useStockRequest = () => {
       const {data} = await axiosToken.put(`/brands/${id}`,editedBrand)
       dispatch(editBrandsSuccess(data.new))
       toastSuccessNotify("Brand updated successfully.");
-      getBrands()
       console.log("Yeni data", data.new)
     }catch(err){
       dispatch(fetchFail())
@@ -98,7 +97,6 @@ const useStockRequest = () => {
     try{
       const {data} = await axiosToken.delete(`/brands/${id}`)
       dispatch(deleteBrandSuccess(data))
-      getBrands()
       toastSuccessNotify("Brand deleted successfully.");
     }catch(err){
       dispatch(fetchFail())
@@ -106,7 +104,22 @@ const useStockRequest = () => {
       console.log(err)
     }
   }  
-  return { getFirms,deleteFirm,editFirm,addFirm,getBrands,editBrands,deleteBrand }
+
+  const addBrand = async (formData) => {
+    dispatch(fetchStart())
+    try{
+      const {data} = await axiosToken.post(`/brands/`,formData)
+      console.log('data',data)
+      dispatch(addBrandSuccess(data.data))
+      getBrands()
+      toastSuccessNotify("Brand added successfully.");
+    }catch(err){
+      dispatch(fetchFail())
+      toastErrorNotify("Failed to add brand.");
+      console.log(err)
+    }
+  }
+  return { getFirms,deleteFirm,editFirm,addFirm,getBrands,editBrands,deleteBrand,addBrand }
 }
 
 export default useStockRequest

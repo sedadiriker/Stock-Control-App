@@ -24,11 +24,13 @@ const ListBrands = () => {
     const {  editBrands,getBrands,deleteBrand } = useStockRequest();
     // const [expanded, setExpanded] = useState(false);
     const [editMode, setEditMode] = useState(false);
-    const [selectedBrandId, setSelectedBrandId] = useState(null);
+    const [selectedBrand, setSelectedBrand] = useState(null);
     const [formData, setFormData] = useState({
         name: '',
         image: ''
     });
+    const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false)
+    // console.log(selectedBrandId)
     const { brands } = useSelector(state => state.getbrands);
 
     const columns = [
@@ -41,28 +43,46 @@ const ListBrands = () => {
         </Typography>) },
       { field: "actions", headerName: <Box display={'flex'} justifyContent={'center'}  width={200}><Typography fontWeight={"bold"} color={"blue"} textTransform={"uppercase"}>Actions</Typography></Box>, width: 200 ,renderCell:(params) => (
         <Box display={'flex'} justifyContent={'center'} gap={1}><EditIcon sx={{cursor:"pointer", color:"green"}} onClick={(()=>handleEditClick(params.row))}/>
-        <DeleteIcon sx={{cursor:"pointer", color:"brown"}} onClick={(()=>handleDelete(selectedBrandId))}/></Box>
+                            <DeleteIcon sx={{cursor:"pointer", color:"brown"}} onClick={() => handleDeleteConfirmation(params.row)} />
+</Box>
       )},
       
     ];
 
     const rows = brands?.map((brand) => ({ name: brand?.name, image: brand?.image }));
-   
-    const handleDelete = (id) => {
-      deleteBrand(id)
+
+    const handleDeleteConfirmation = (row) => {
+      const selectedBrand = brands.find((brand) => brand.name === row.name);
+    if (selectedBrand) {
+        setSelectedBrand(selectedBrand);
+        setDeleteConfirmationOpen(true)
+    } else {
+        console.error('Selected brand not found in brands!');
     }
+
+  }
+  const handleDelete = () => {
+    deleteBrand(selectedBrand._id);
+    setDeleteConfirmationOpen(false);
+
+}
+
+const handleCancelDelete = () => {
+  setSelectedBrand(null);
+  setDeleteConfirmationOpen(false); 
+}
     const handleEditClick = (row) => {
         setEditMode(true)
         setFormData({...row})
         const selectedBrand = brands.find((brand) => brand.name === row.name);
-        setSelectedBrandId(selectedBrand ? selectedBrand._id : null);
-
+        setSelectedBrand(selectedBrand);
+        console.log(selectedBrand)
 
     };
 
     const handleSaveEdit = () => {
-      if (selectedBrandId) {
-        editBrands(selectedBrandId, formData);
+      if (selectedBrand) {
+        editBrands(selectedBrand._id, formData);
         setEditMode(false);
     } else {
         console.error('Selected brand ID not found!');
@@ -125,6 +145,25 @@ const ListBrands = () => {
           </Box>
         </Modal>
       )}
+       <Modal
+                open={deleteConfirmationOpen}
+                onClose={handleCancelDelete}
+                aria-labelledby="delete-confirmation-modal-title"
+                aria-describedby="delete-confirmation-modal-description"
+            >
+                <Box sx={style}>
+                    <Typography variant="h6" gutterBottom>
+                        Delete Brand
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                        {`Are you sure you want to delete ${selectedBrand?.name}?`}
+                    </Typography>
+                    <Box display="flex" justifyContent="center" gap={2} mt={2}>
+                        <Button variant="contained" color="primary" onClick={handleDelete}>Delete</Button>
+                        <Button variant="contained" color="secondary" onClick={handleCancelDelete}>Cancel</Button>
+                    </Box>
+                </Box>
+            </Modal>
   </>
     );
 }

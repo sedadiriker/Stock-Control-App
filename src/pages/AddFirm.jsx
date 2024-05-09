@@ -4,13 +4,11 @@ import Container from "@mui/material/Container";
 import { Form, Formik } from "formik";
 import { number, object, string } from "yup";
 import useStockRequest from "../services/useStockRequest";
-import { useNavigate } from "react-router"
 
 const AddFirm = () => {
   const{addFirm} = useStockRequest()
-  const navigate = useNavigate()
 
-  const registerSchema = object({
+  const addFirmSchema = object({
     name: string()
       .required("Name is required"),
     phone: number()
@@ -38,7 +36,7 @@ const AddFirm = () => {
               image: "",
               address: "",
             }}
-            validationSchema={registerSchema}
+            validationSchema={addFirmSchema}
             onSubmit={(values, actions) => {
               addFirm(values)
               actions.resetForm();
