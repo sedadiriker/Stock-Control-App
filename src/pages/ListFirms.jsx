@@ -41,7 +41,6 @@ const ListFirms = () => {
           rows={rows}
           columns={columns}
           pageSize={5}
-          checkboxSelection
           getRowId={(row) => row.name} //! Her satırı ismiyle kimliklendirme
           onRowClick={handleRowClick}
         />

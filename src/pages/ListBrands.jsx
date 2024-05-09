@@ -6,6 +6,8 @@ import { useState,useEffect } from "react";
 import { DataGrid } from '@mui/x-data-grid';
 import {  Button, Modal, TextField } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 const style = {
     position: 'absolute',
     top: '50%',
@@ -19,7 +21,7 @@ const style = {
 };
 
 const ListBrands = () => {
-    const {  editBrands,getBrands } = useStockRequest();
+    const {  editBrands,getBrands,deleteBrand } = useStockRequest();
     // const [expanded, setExpanded] = useState(false);
     const [editMode, setEditMode] = useState(false);
     const [selectedBrandId, setSelectedBrandId] = useState(null);
@@ -33,16 +35,22 @@ const ListBrands = () => {
       { field: "image", headerName: <Typography fontWeight={"bold"} color={"blue"} textTransform={"uppercase"}>Logo</Typography>, width: 250,renderCell:(params) => (
         <Box component={"img"} alt={params.value} src={params.value} sx={{width:"30%", height:"100%",objectFit:"contain"}}/>
       ) },
-      { field: "name", headerName: <Typography fontWeight={"bold"} color={"blue"} textTransform={"uppercase"}>Name</Typography>, width: 400 },
-      { field: "actions", headerName: <Typography fontWeight={"bold"} color={"blue"} textTransform={"uppercase"}>Actions</Typography>, width: 200 ,renderCell:(params) => (
-        <EditIcon sx={{cursor:"pointer", color:"green"}} onClick={(()=>handleEditClick(params.row))}/>
+      { field: "name", headerName: <Typography fontWeight={"bold"} color={"blue"} textTransform={"uppercase"}>Name</Typography>, width: 400, renderCell: (params) => (
+        <Typography variant="body1" color="black">
+          {params.value}
+        </Typography>) },
+      { field: "actions", headerName: <Box display={'flex'} justifyContent={'center'}  width={200}><Typography fontWeight={"bold"} color={"blue"} textTransform={"uppercase"}>Actions</Typography></Box>, width: 200 ,renderCell:(params) => (
+        <Box display={'flex'} justifyContent={'center'} gap={1}><EditIcon sx={{cursor:"pointer", color:"green"}} onClick={(()=>handleEditClick(params.row))}/>
+        <DeleteIcon sx={{cursor:"pointer", color:"brown"}} onClick={(()=>handleDelete(selectedBrandId))}/></Box>
       )},
       
     ];
 
     const rows = brands?.map((brand) => ({ name: brand?.name, image: brand?.image }));
    
-
+    const handleDelete = (id) => {
+      deleteBrand(id)
+    }
     const handleEditClick = (row) => {
         setEditMode(true)
         setFormData({...row})
@@ -75,15 +83,13 @@ const ListBrands = () => {
 
     return (
       <>
-      <Typography textAlign={"center"} color={"brown"} variant="h5" fontWeight={"bold"} textTransform={"uppercase"} my={4}>List Of Brands</Typography>
+      <Typography textAlign={"center"} color={"brown"} variant="h5" fontWeight={"bold"} textTransform={"uppercase"} >List Of Brands</Typography>
       <Box style={{ height: "70vh", width: "70%", margin: "auto" }}>
           <DataGrid
               rows={rows}
               columns={columns}
               pageSize={5}
-              checkboxSelection
               getRowId={(row) => row.name} //! Her satırı ismiyle kimliklendirme
-              onRowClick={(e) => handleEditClick(e.row)}
           />
       </Box>
       

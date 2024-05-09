@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux"
 import useAxios from "./useAxios"
 import { addFirmSuccess, deleteFirmSuccess, editSuccess, fetchFail, fetchStart, firmsList } from "../features/firmSlice"
 import { toastSuccessNotify, toastErrorNotify } from "../helper/ToastNotify";
-import { brandsList, editBrandsSuccess } from "../features/brandSlice";
+import { brandsList, deleteBrandSuccess, editBrandsSuccess } from "../features/brandSlice";
 
 const useStockRequest = () => {
   const { axiosToken } = useAxios()
@@ -92,8 +92,21 @@ const useStockRequest = () => {
       console.log(err)
     }
   }
-  
-  return { getFirms,deleteFirm,editFirm,addFirm,getBrands,editBrands }
+
+  const deleteBrand = async (id) => {
+    dispatch(fetchStart())
+    try{
+      const {data} = await axiosToken.delete(`/brands/${id}`)
+      dispatch(deleteBrandSuccess(data))
+      getBrands()
+      toastSuccessNotify("Brand deleted successfully.");
+    }catch(err){
+      dispatch(fetchFail())
+      toastErrorNotify("Failed to delete brand.");
+      console.log(err)
+    }
+  }  
+  return { getFirms,deleteFirm,editFirm,addFirm,getBrands,editBrands,deleteBrand }
 }
 
 export default useStockRequest
