@@ -25,8 +25,8 @@ const useStockRequest = () => {
   const deleteFirm = async (id) => {
     dispatch(fetchStart())
     try{
-      const {data} = await axiosToken.delete(`/firms/${id}`)
-      dispatch(deleteFirmSuccess(data))
+       await axiosToken.delete(`/firms/${id}`)
+      dispatch(deleteFirmSuccess(id))
       getFirms()
       toastSuccessNotify("Firm deleted successfully.");
     }catch(err){
@@ -41,8 +41,8 @@ const useStockRequest = () => {
     try{
       const {data} = await axiosToken.put(`/firms/${id}`,formData)
       dispatch(editSuccess(data.new))
-      toastSuccessNotify("Firm updated successfully.");
       getFirms()
+      toastSuccessNotify("Firm updated successfully.");
     }catch(err){
       dispatch(fetchFail())
       toastErrorNotify("Failed to update firm.");
@@ -95,9 +95,10 @@ const useStockRequest = () => {
   const deleteBrand = async (id) => {
     dispatch(fetchStart())
     try{
-      const {data} = await axiosToken.delete(`/brands/${id}`)
-      dispatch(deleteBrandSuccess(data))
+      await axiosToken.delete(`/brands/${id}`)
+      dispatch(deleteBrandSuccess(id))
       toastSuccessNotify("Brand deleted successfully.");
+      getBrands()
     }catch(err){
       dispatch(fetchFail())
       toastErrorNotify("Failed to delete brand.");

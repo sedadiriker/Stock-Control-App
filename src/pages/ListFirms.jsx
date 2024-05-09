@@ -17,7 +17,7 @@ const ListFirms = () => {
     { field: "phone", headerName: "Phone", width: 200 },
   ];
 
-  const rows = firms?.map((firm) => ({ name: firm?.name, phone: firm?.phone }));
+  const rows = firms?.map((firm) => ({ name: firm?.name, phone: firm?.phone, id:firm?._id }));
 
   const handleRowClick = (row) => {
     setSelectedFirm(row)
@@ -41,7 +41,7 @@ const ListFirms = () => {
           rows={rows}
           columns={columns}
           pageSize={5}
-          getRowId={(row) => row.name} //! Her satırı ismiyle kimliklendirme
+          getRowId={row=>row.id} //! Her satırı  kimliklendirme
           onRowClick={handleRowClick}
         />
       </Box>

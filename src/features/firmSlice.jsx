@@ -19,12 +19,13 @@ const firmSlice = createSlice({
         },
         deleteFirmSuccess : (state , {payload}) => {
             state.loading = false
-            state.firms = payload.data
+      const deletedFirmId = payload.id;
+      state.firms = state.firms.filter((firm) => firm._id !== deletedFirmId);
         },
         editSuccess:(state,{payload}) => {
         state.loading = false
-        
         const updatedFirm = payload
+        console.log("upp",updatedFirm)
         state.firms = state.firms.map(firm => {
             if(firm.id === updatedFirm.id) {
                 return updatedFirm

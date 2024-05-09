@@ -28,9 +28,11 @@ const brandSlice = createSlice({
           return brand
       })
     },
-    deleteBrandSuccess : (state , {payload}) => {
+    deleteBrandSuccess : (state, {payload} ) => {
       state.loading = false
-      state.brands = payload.data
+      const deletedBrandId = payload.id;
+      state.brands = state.brands.filter((brand) => brand._id !== deletedBrandId);
+
     },
     addBrandSuccess : (state,{payload}) => {
       state.loading = false;

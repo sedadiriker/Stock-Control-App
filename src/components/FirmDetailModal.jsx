@@ -43,9 +43,7 @@ const ExpandMore = styled((props) => {
 }));
 
 const FirmDetailModal = ({ open, handleClose, firm }) => {
-    const {token} = useSelector(state=>state.auth)
-    console.log(token)
-    const { deleteFirm, editFirm } = useStockRequest();
+    const { deleteFirm, editFirm, getFirms } = useStockRequest();
     const [expanded, setExpanded] = useState(false);
     const [editMode, setEditMode] = useState(false);
     const [formData, setFormData] = useState({
@@ -75,18 +73,20 @@ const FirmDetailModal = ({ open, handleClose, firm }) => {
 
     const handleDelete = (id) => {
         deleteFirm(id);
+        handleClose()
     };
 
     const handleEditClick = () => {
         setEditMode(true);
-
     };
 
-    const handleEdit = () => {
+    const handleEdit =  () => {
         if (selectedFirm) {
-            editFirm(selectedFirm._id, formData);
+             editFirm(selectedFirm._id, formData);
             setEditMode(false);
-            console.log(selectedFirm._id,formData)
+            handleClose()
+            getFirms()
+            // console.log(selectedFirm._id,formData)
         } else {
             console.error('Selected firm is undefined');
         }
@@ -97,11 +97,6 @@ const FirmDetailModal = ({ open, handleClose, firm }) => {
         setFormData({ ...formData, [name]: value });
     };
 
-    
-
-    useEffect(()=>{
-        
-    })
     return (
         <Modal
             open={open}
