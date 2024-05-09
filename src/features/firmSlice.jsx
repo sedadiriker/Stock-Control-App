@@ -24,7 +24,7 @@ const firmSlice = createSlice({
         editSuccess:(state,{payload}) => {
         state.loading = false
         
-        const updatedFirm = payload.data
+        const updatedFirm = payload
         state.firms = state.firms.map(firm => {
             if(firm.id === updatedFirm.id) {
                 return updatedFirm

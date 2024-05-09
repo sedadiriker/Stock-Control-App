@@ -43,6 +43,8 @@ const ExpandMore = styled((props) => {
 }));
 
 const FirmDetailModal = ({ open, handleClose, firm }) => {
+    const {token} = useSelector(state=>state.auth)
+    console.log(token)
     const { deleteFirm, editFirm } = useStockRequest();
     const [expanded, setExpanded] = useState(false);
     const [editMode, setEditMode] = useState(false);
@@ -52,7 +54,9 @@ const FirmDetailModal = ({ open, handleClose, firm }) => {
         address: '',
         image: ''
     });
-
+    const { firms } = useSelector(state => state.getfirms);
+    const selectedFirm = firms?.find(selectfirm => selectfirm?.name === firm?.row.name);
+    console.log(selectedFirm)
     useEffect(() => {
         if (firm && open) {
             const selectedFirm = firm?.row;
@@ -75,11 +79,17 @@ const FirmDetailModal = ({ open, handleClose, firm }) => {
 
     const handleEditClick = () => {
         setEditMode(true);
+
     };
 
     const handleEdit = () => {
-        editFirm(selectedFirm._id, formData);
-        setEditMode(false);
+        if (selectedFirm) {
+            editFirm(selectedFirm._id, formData);
+            setEditMode(false);
+            console.log(selectedFirm._id,formData)
+        } else {
+            console.error('Selected firm is undefined');
+        }
     };
 
     const handleChange = (e) => {
@@ -87,9 +97,11 @@ const FirmDetailModal = ({ open, handleClose, firm }) => {
         setFormData({ ...formData, [name]: value });
     };
 
-    const { firms } = useSelector(state => state.getfirms);
-    const selectedFirm = firms?.find(selectfirm => selectfirm?.name === firm?.row.name);
+    
 
+    useEffect(()=>{
+        
+    })
     return (
         <Modal
             open={open}
@@ -104,12 +116,13 @@ const FirmDetailModal = ({ open, handleClose, firm }) => {
                             <TextField
                                 id="name"
                                 name="name"
-                                label="Firma Adı"
+                                label="Firm Name"
                                 value={formData.name}
                                 onChange={handleChange}
+                                required
                             />
                         )}
-                        sx={{ textAlign: "center", color: "white", textTransform: "uppercase", backgroundColor:"#03215A" }}
+                        sx={{ textAlign: "center", color: "black", textTransform: "uppercase", }}
                     />
                     {!editMode ? (
                         <CardMedia
@@ -123,9 +136,11 @@ const FirmDetailModal = ({ open, handleClose, firm }) => {
                         <TextField
                             id="image"
                             name="image"
-                            label="Resim URL'si"
+                            label="Firm image"
                             value={formData.image}
                             onChange={handleChange}
+                            required
+                            
                         />
                     )}
                     <CardContent>
@@ -134,9 +149,10 @@ const FirmDetailModal = ({ open, handleClose, firm }) => {
                                 <TextField
                                     id="phone"
                                     name="phone"
-                                    label="Telefon"
+                                    label="Phone"
                                     value={formData.phone}
                                     onChange={handleChange}
+                                    required
                                 />
                             )}
                         </Typography>
@@ -152,7 +168,7 @@ const FirmDetailModal = ({ open, handleClose, firm }) => {
                             </IconButton>
                         )}
                         <IconButton >
-                            <DeleteIcon onClick={() => handleDelete(selectedFirm._id)} sx={{ color: "brown" }} />
+                            <DeleteIcon onClick={() => handleDelete(selectedFirm?._id)} sx={{ color: "brown" }} />
                         </IconButton>
                         <ExpandMore
                             expand={expanded}
@@ -171,9 +187,10 @@ const FirmDetailModal = ({ open, handleClose, firm }) => {
             <TextField
                 id="address"
                 name="address"
-                label="Adres"
+                label="Address"
                 value={formData.address}
                 onChange={handleChange}
+                required
             />
         )}
     </CardContent>

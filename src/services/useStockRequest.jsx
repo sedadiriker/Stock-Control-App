@@ -40,7 +40,7 @@ const useStockRequest = () => {
     dispatch(fetchStart())
     try{
       const {data} = await axiosToken.put(`/firms/${id}`,formData)
-      dispatch(editSuccess(data.data))
+      dispatch(editSuccess(data.new))
       toastSuccessNotify("Firm updated successfully.");
       getFirms()
     }catch(err){
