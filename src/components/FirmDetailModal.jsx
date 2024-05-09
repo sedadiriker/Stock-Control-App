@@ -84,9 +84,8 @@ const FirmDetailModal = ({ open, handleClose, firm }) => {
         if (selectedFirm) {
              editFirm(selectedFirm._id, formData);
             setEditMode(false);
-            handleClose()
             getFirms()
-            // console.log(selectedFirm._id,formData)
+            handleClose()
         } else {
             console.error('Selected firm is undefined');
         }
