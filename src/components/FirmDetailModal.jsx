@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
@@ -18,6 +17,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import TextField from '@mui/material/TextField';
 import useStockRequest from '../services/useStockRequest';
 import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
+import { useState,useEffect } from "react";
+
 const style = {
     position: 'absolute',
     top: '50%',
@@ -43,16 +44,16 @@ const ExpandMore = styled((props) => {
 
 const FirmDetailModal = ({ open, handleClose, firm }) => {
     const { deleteFirm, editFirm } = useStockRequest();
-    const [expanded, setExpanded] = React.useState(false);
-    const [editMode, setEditMode] = React.useState(false);
-    const [formData, setFormData] = React.useState({
+    const [expanded, setExpanded] = useState(false);
+    const [editMode, setEditMode] = useState(false);
+    const [formData, setFormData] = useState({
         name: '',
         phone: '',
         address: '',
         image: ''
     });
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (firm && open) {
             const selectedFirm = firm?.row;
             setFormData({

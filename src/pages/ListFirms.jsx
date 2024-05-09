@@ -27,9 +27,9 @@ const ListFirms = () => {
   const closeModal = () => {
     setShowModal(false)
   }
-  React.useEffect(() => {
+ React.useEffect(() => {
     getFirms();
-  }, [firms]);
+  }, []);
 
   
   return (

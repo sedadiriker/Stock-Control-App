@@ -1,84 +1,126 @@
-import * as React from "react";
-import { useSelector } from "react-redux";
-import useStockRequest from "../services/useStockRequest";
-import { Avatar, Box, IconButton, Typography } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
-import FirmDetailModal from "../components/FirmDetailModal";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import { useSelector } from 'react-redux';
+import useStockRequest from '../services/useStockRequest';
+import { useState,useEffect } from "react";
+import { DataGrid } from '@mui/x-data-grid';
+import {  Button, Modal, TextField } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+};
 
 const ListBrands = () => {
-  const [selectedFirm, setSelectedFirm] = React.useState(null);
-  const [showModal, setShowModal] = React.useState(false);
-  const { brands } = useSelector((state) => state.getbrands);
-  const { getBrands } = useStockRequest();
+    const {  editBrands,getBrands } = useStockRequest();
+    // const [expanded, setExpanded] = useState(false);
+    const [editMode, setEditMode] = useState(false);
+    const [selectedBrandId, setSelectedBrandId] = useState(null);
+    const [formData, setFormData] = useState({
+        name: '',
+        image: ''
+    });
+    const { brands } = useSelector(state => state.getbrands);
 
-  const ActionCell = ({ onEdit, onDelete }) => {
+    const columns = [
+      { field: "image", headerName: <Typography fontWeight={"bold"} color={"blue"} textTransform={"uppercase"}>Logo</Typography>, width: 250,renderCell:(params) => (
+        <Box component={"img"} alt={params.value} src={params.value} sx={{width:"30%", height:"100%",objectFit:"contain"}}/>
+      ) },
+      { field: "name", headerName: <Typography fontWeight={"bold"} color={"blue"} textTransform={"uppercase"}>Name</Typography>, width: 400 },
+      { field: "actions", headerName: <Typography fontWeight={"bold"} color={"blue"} textTransform={"uppercase"}>Actions</Typography>, width: 200 ,renderCell:(params) => (
+        <EditIcon sx={{cursor:"pointer", color:"green"}} onClick={(()=>handleEditClick(params.row))}/>
+      )},
+      
+    ];
+
+    const rows = brands?.map((brand) => ({ name: brand?.name, image: brand?.image }));
+   
+
+    const handleEditClick = (row) => {
+        setEditMode(true)
+        setFormData({...row})
+        const selectedBrand = brands.find((brand) => brand.name === row.name);
+        setSelectedBrandId(selectedBrand ? selectedBrand._id : null);
+
+
+    };
+
+    const handleSaveEdit = () => {
+      if (selectedBrandId) {
+        editBrands(selectedBrandId, formData);
+        setEditMode(false);
+    } else {
+        console.error('Selected brand ID not found!');
+    }
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+    };
+
+    const handleClose = () => {
+      setEditMode(false)
+    }
+    useEffect(()=>{
+      getBrands()
+    },[])
+
     return (
-      <div>
-        <IconButton onClick={onEdit}>
-          <EditIcon />
-        </IconButton>
-        <IconButton onClick={onDelete}>
-          <DeleteIcon />
-        </IconButton>
-      </div>
-    );
-  };
-  
-  const columns = [
-    {
-      field: "image",
-      headerName: <span style={{ fontWeight: "bold",color:"#0551B6", textTransform:"uppercase" }}>Logo</span>,
-      width: 200,
-      renderCell: (params) => (
-        <Avatar alt={params.value} src={params.value} sx={{ width: 50, height: 50 }} /> //! özel hücre bileşeni
-      ),
-    },
-    { field: "name", headerName: <span style={{ fontWeight: "bold",color:"#0551B6", textTransform:"uppercase" }}>Name</span>, width: 500 },
-    { field: "action", headerName: <span style={{ fontWeight: "bold", color: "#0551B6", textTransform: "uppercase" }}>Actions</span>, width: 100,
-    renderCell: (params) => (
-      <ActionCell 
-        // onEdit={() => handleEdit(params.row)} 
-        // onDelete={() => handleDelete(params.row)} 
-      />
-    ),
-  },
-  ];
-
-  const rows = brands?.map((brand) => ({ name: brand?.name, image: brand?.image }));
-
-  const handleRowClick = (row) => {
-    setSelectedFirm(row);
-    setShowModal(true);
-  };
-
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
-  React.useEffect(() => {
-    getBrands();
-  }, [brands]);
-
-  return (
-    <>
-      <Typography textAlign={"center"} color={"brown"} variant="h5" fontWeight={"bold"} textTransform={"uppercase"}>
-        List Of Brands
-      </Typography>
+      <>
+      <Typography textAlign={"center"} color={"brown"} variant="h5" fontWeight={"bold"} textTransform={"uppercase"} my={4}>List Of Brands</Typography>
       <Box style={{ height: "70vh", width: "70%", margin: "auto" }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          pageSize={5}
-          checkboxSelection
-          getRowId={(row) => row.name}
-          onRowClick={handleRowClick}
-        />
+          <DataGrid
+              rows={rows}
+              columns={columns}
+              pageSize={5}
+              checkboxSelection
+              getRowId={(row) => row.name} //! Her satırı ismiyle kimliklendirme
+              onRowClick={(e) => handleEditClick(e.row)}
+          />
       </Box>
-      <FirmDetailModal open={showModal} handleClose={closeModal} firm={selectedFirm} />
-    </>
-  );
-};
+      
+      {editMode && (
+          <Modal
+          open
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box display={'flex'} flexDirection={'column'} gap={3} sx={style}>
+          <Typography textAlign={'center'} color={"brown"} variant="h6" gutterBottom>
+                  Edit Brand
+              </Typography>
+              <TextField
+                  label="Name"
+                  fullWidth
+                  value={formData.name}
+                  onChange={handleChange}
+                  name="name"
+              />
+              <TextField
+                  label="Image URL"
+                  fullWidth
+                  value={formData.image}
+                  onChange={handleChange}
+                  name="image"
+              />
+              <Box display={'flex'} justifyContent={'center'} gap={2}>
+              <Button variant="contained" color="primary" onClick={handleSaveEdit}>Save Changes</Button>
+              <Button variant="contained" color="primary" onClick={handleClose}>Back</Button>
+              </Box>
+          </Box>
+        </Modal>
+      )}
+  </>
+    );
+}
 
 export default ListBrands;

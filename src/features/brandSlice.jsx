@@ -17,6 +17,17 @@ const brandSlice = createSlice({
         state.loading = false
         state.brands = payload.data
     },
+    editBrandsSuccess:(state,{payload}) => {
+      state.loading = false
+      
+      const updatedBrand = payload
+      state.brands = state.brands.map(brand => {
+          if(brand._id === updatedBrand?._id) {
+              return updatedBrand
+          }
+          return brand
+      })
+    },
     fetchFail: (state) => {
         state.loading = false
         state.error = true
@@ -24,6 +35,6 @@ const brandSlice = createSlice({
   }
 });
 
-export const {fetchStart, brandsList,fetchFail} = brandSlice.actions
+export const {fetchStart, brandsList,fetchFail,editBrandsSuccess} = brandSlice.actions
 
 export default brandSlice.reducer
