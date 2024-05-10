@@ -1,125 +1,72 @@
-import { useDispatch } from "react-redux"
-import useAxios from "./useAxios"
-import { addFirmSuccess, deleteFirmSuccess, editSuccess, fetchFail, fetchStart, firmsList } from "../features/firmSlice"
+import { useDispatch } from "react-redux";
+import useAxios from "./useAxios";
 import { toastSuccessNotify, toastErrorNotify } from "../helper/ToastNotify";
-import { addBrandSuccess, brandsList, deleteBrandSuccess, editBrandsSuccess } from "../features/brandSlice";
+import { addStockSuccess, deleteStockSuccess, editStockSuccess, fetchFail, fetchStart, getStockSuccess } from "../features/stockSlice";
 
 const useStockRequest = () => {
-  const { axiosToken } = useAxios()
-  const dispatch = useDispatch()
+  const { axiosToken } = useAxios();
+  const dispatch = useDispatch();
 
-//!FİRMS
-  const getFirms = async () => {
-    dispatch(fetchStart())
+
+  const getStock = async (path="firms" ) => {
+    dispatch(fetchStart());
     try {
-      const { data } =await axiosToken.get("/firms")
-      console.log(data)
-        dispatch(firmsList(data))
-    } catch (error) {
-        dispatch(fetchFail())
-        toastErrorNotify("Failed to loading firms.");
-      console.log(error)
+      const { data } = await axiosToken(`/${path}`);
+      const stockData = data.data;
+      dispatch(getStockSuccess({  stockData, path })); // datayı ve path ı yolladık..
+    } catch (err) {
+      dispatch(fetchFail());
+      toastErrorNotify(`Failed to loading ${path}`);
     }
-  }
+  };
 
-  const deleteFirm = async (id) => {
-    dispatch(fetchStart())
-    try{
-       await axiosToken.delete(`/firms/${id}`)
-      dispatch(deleteFirmSuccess(id))
-      getFirms()
-      toastSuccessNotify("Firm deleted successfully.");
-    }catch(err){
-      dispatch(fetchFail())
-      toastErrorNotify("Failed to delete firm.");
-      console.log(err)
-    }
-  }
-
-  const editFirm = async (id,formData) => {
-    dispatch(fetchStart())
-    try{
-      const {data} = await axiosToken.put(`/firms/${id}`,formData)
-      dispatch(editSuccess(data.new))
-      toastSuccessNotify("Firm updated successfully.");
-    }catch(err){
-      dispatch(fetchFail())
-      toastErrorNotify("Failed to update firm.");
-      console.log(err)
-    }
-  }
-
-  const addFirm = async (formData) => {
-    dispatch(fetchStart())
-    try{
-      const {data} = await axiosToken.post(`/firms/`,formData)
-      dispatch(addFirmSuccess(data.data))
-      getFirms()
-      toastSuccessNotify("Firm added successfully.");
-    }catch(err){
-      dispatch(fetchFail())
-      toastErrorNotify("Failed to add firm.");
-      console.log(err)
-    }
-  }
-
-  //! BRANDS
-  const getBrands = async () => {
-    dispatch(fetchStart())
+  const deleteStock = async (path="firms" , id) => {
+    dispatch(fetchStart());
     try {
-      const { data } =await axiosToken.get("/brands")
-      // console.log(data)
-        dispatch(brandsList(data))
+      await axiosToken.delete(`/${path}/${id}`); // path parametrik yapıldı.
+      dispatch(deleteStockSuccess({path,id}))
+      getStock(path); // sildikten sonra yenileme
+      toastSuccessNotify("deleted successfully.");
     } catch (error) {
-        dispatch(fetchFail())
-        toastErrorNotify("Failed to loading brands.");
-      console.log(error)
+      dispatch(fetchFail());
+      toastErrorNotify("Failed to delete.");
+      console.log(error);
     }
-  }
+  };
 
-  const editBrands = async (id,editedBrand) => {
+   const editStock = async (path="firms",id,formData) => {
     dispatch(fetchStart())
     try{
-      const {data} = await axiosToken.put(`/brands/${id}`,editedBrand)
-      dispatch(editBrandsSuccess(data.new))
-      toastSuccessNotify("Brand updated successfully.");
-      console.log("Yeni data", data.new)
+      const {data} = await axiosToken.put(`/${path}/${id}`,formData)
+      const updateData = data.new
+      dispatch(editStockSuccess({path,updateData}))
+      getStock(path)
+      toastSuccessNotify("Update successfully.");
     }catch(err){
       dispatch(fetchFail())
-      toastErrorNotify("Failed to update brand.");
+      toastErrorNotify("Failed to update.");
       console.log(err)
     }
   }
 
-  const deleteBrand = async (id) => {
+  const addStock = async (path="firms",formData) => {
     dispatch(fetchStart())
     try{
-      await axiosToken.delete(`/brands/${id}`)
-      dispatch(deleteBrandSuccess(id))
-      toastSuccessNotify("Brand deleted successfully.");
-      getBrands()
+      const {data} = await axiosToken.post(`/${path}/`,formData)
+      const addData = data.data
+      dispatch(addStockSuccess({path,addData}))
+      getStock(path)
+      toastSuccessNotify("Added successfully.");
     }catch(err){
       dispatch(fetchFail())
-      toastErrorNotify("Failed to delete brand.");
-      console.log(err)
-    }
-  }  
-
-  const addBrand = async (formData) => {
-    dispatch(fetchStart())
-    try{
-      const {data} = await axiosToken.post(`/brands/`,formData)
-      console.log('data',data)
-      dispatch(addBrandSuccess(data.data))
-      getBrands()
-      toastSuccessNotify("Brand added successfully.");
-    }catch(err){
-      dispatch(fetchFail())
-      toastErrorNotify("Failed to add brand.");
+      toastErrorNotify("Failed to add.");
       console.log(err)
     }
   }
-  return { getFirms,deleteFirm,editFirm,addFirm,getBrands,editBrands,deleteBrand,addBrand }
-}
 
-export default useStockRequest
+  
+
+  return { getStock,deleteStock,editStock,addStock };
+};
+
+export default useStockRequest;

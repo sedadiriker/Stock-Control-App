@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { useSelector } from 'react-redux';
-import useStockRequest from '../services/useStockRequest';
+import useStockRequest from '../../services/useStockRequest';
 import { useState,useEffect } from "react";
 import { DataGrid } from '@mui/x-data-grid';
 import {  Button, Modal, TextField } from '@mui/material';
@@ -21,8 +21,7 @@ const style = {
 };
 
 const ListBrands = () => {
-    const {  editBrands,getBrands,deleteBrand } = useStockRequest();
-    // const [expanded, setExpanded] = useState(false);
+    const {  editStock,getStock,deleteStock } = useStockRequest();
     const [editMode, setEditMode] = useState(false);
     const [selectedBrand, setSelectedBrand] = useState(null);
     const [formData, setFormData] = useState({
@@ -30,18 +29,17 @@ const ListBrands = () => {
         image: ''
     });
     const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false)
-    // console.log(selectedBrandId)
-    const { brands } = useSelector(state => state.getbrands);
+    const { brands } = useSelector(state => state.stock);
 
     const columns = [
-      { field: "image", headerName: <Typography fontWeight={"bold"} color={"blue"} textTransform={"uppercase"}>Logo</Typography>, width: 250,renderCell:(params) => (
+      { field: "image", headerName: <Typography variant="p" color={"#0551B6"} textTransform={"uppercase"} fontWeight={"bold"}>Logo</Typography>, width: 250,renderCell:(params) => (
         <Box component={"img"} alt={params.value} src={params.value} sx={{width:"30%", height:"100%",objectFit:"contain"}}/>
       ) },
-      { field: "name", headerName: <Typography fontWeight={"bold"} color={"blue"} textTransform={"uppercase"}>Name</Typography>, width: 400, renderCell: (params) => (
+      { field: "name", headerName: <Typography variant="p" color={"#0551B6"} textTransform={"uppercase"} fontWeight={"bold"}>Name</Typography>, width: 400, renderCell: (params) => (
         <Typography variant="body1" color="black">
           {params.value}
         </Typography>) },
-      { field: "actions", headerName: <Box display={'flex'} justifyContent={'center'}  width={200}><Typography fontWeight={"bold"} color={"blue"} textTransform={"uppercase"}>Actions</Typography></Box>, width: 200 ,renderCell:(params) => (
+      { field: "actions", headerName: <Box display={'flex'} justifyContent={'center'}  width={200}><Typography variant="p" color={"#0551B6"} textTransform={"uppercase"} fontWeight={"bold"}>Actions</Typography></Box>, width: 200 ,renderCell:(params) => (
         <Box display={'flex'} justifyContent={'center'} gap={1}><EditIcon sx={{cursor:"pointer", color:"green"}} onClick={(()=>handleEditClick(params.row))}/>
                             <DeleteIcon sx={{cursor:"pointer", color:"brown"}} onClick={() => handleDeleteConfirmation(params.row)} />
 </Box>
@@ -62,7 +60,7 @@ const ListBrands = () => {
 
   }
   const handleDelete = () => {
-    deleteBrand(selectedBrand._id);
+    deleteStock("brands",selectedBrand._id);
     setDeleteConfirmationOpen(false);
 
 }
@@ -82,7 +80,7 @@ const handleCancelDelete = () => {
 
     const handleSaveEdit = () => {
       if (selectedBrand) {
-        editBrands(selectedBrand._id, formData);
+        editStock("brands",selectedBrand._id, formData);
         setEditMode(false);
     } else {
         console.error('Selected brand ID not found!');
@@ -98,7 +96,7 @@ const handleCancelDelete = () => {
       setEditMode(false)
     }
     useEffect(()=>{
-      getBrands()
+      getStock("brands")
     },[])
 
     return (
@@ -121,7 +119,7 @@ const handleCancelDelete = () => {
           aria-describedby="modal-modal-description"
         >
           <Box display={'flex'} flexDirection={'column'} gap={3} sx={style}>
-          <Typography textAlign={'center'} color={"brown"} variant="h6" gutterBottom>
+          <Typography textAlign={"center"} color={"brown"} textTransform={"uppercase"} fontWeight={"bold"} gutterBottom>
                   Edit Brand
               </Typography>
               <TextField
@@ -139,8 +137,8 @@ const handleCancelDelete = () => {
                   name="image"
               />
               <Box display={'flex'} justifyContent={'center'} gap={2}>
-              <Button variant="contained" color="primary" onClick={handleSaveEdit}>Save Changes</Button>
-              <Button variant="contained" color="primary" onClick={handleClose}>Back</Button>
+              <Button variant="contained" color="info" onClick={handleSaveEdit}>Save Changes</Button>
+              <Button variant="contained" color="error" onClick={handleClose}>Cancel</Button>
               </Box>
           </Box>
         </Modal>
@@ -152,15 +150,15 @@ const handleCancelDelete = () => {
                 aria-describedby="delete-confirmation-modal-description"
             >
                 <Box sx={style}>
-                    <Typography variant="h6" gutterBottom>
+                <Typography textAlign={"center"} color={"brown"} textTransform={"uppercase"} fontWeight={"bold"} gutterBottom>
                         Delete Brand
                     </Typography>
                     <Typography variant="body1" gutterBottom>
                         {`Are you sure you want to delete ${selectedBrand?.name}?`}
                     </Typography>
                     <Box display="flex" justifyContent="center" gap={2} mt={2}>
-                        <Button variant="contained" color="primary" onClick={handleDelete}>Delete</Button>
-                        <Button variant="contained" color="secondary" onClick={handleCancelDelete}>Cancel</Button>
+                        <Button variant="contained" color="info" onClick={handleDelete}>Delete</Button>
+                        <Button variant="contained" color="error" onClick={handleCancelDelete}>Cancel</Button>
                     </Box>
                 </Box>
             </Modal>

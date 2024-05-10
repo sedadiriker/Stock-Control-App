@@ -1,20 +1,25 @@
-import * as React from "react";
 import { useSelector } from "react-redux";
-import useStockRequest from "../services/useStockRequest";
+import useStockRequest from "../../services/useStockRequest";
 import { Box, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import FirmDetailModal from "../components/FirmDetailModal";
-
+import FirmDetailModal from "../../components/FirmDetailModal";
+import { useEffect, useState } from "react";
 
 const ListFirms = () => {
-  const [selectedFirm, setSelectedFirm] = React.useState(null)
-  const [showModal, setShowModal] = React.useState(false)
-  const { firms } = useSelector((state) => state.getfirms);
-  const { getFirms } = useStockRequest();
+  const [selectedFirm, setSelectedFirm] =useState(null)
+  const [showModal, setShowModal] = useState(false)
+  const { firms } = useSelector((state) => state.stock);
+  const { getStock } = useStockRequest();
 
   const columns = [
-    { field: "name", headerName: "Name", width: 500 },
-    { field: "phone", headerName: "Phone", width: 200 },
+    { field: "name", headerName: <Typography variant="p" color={"#0551B6"} textTransform={"uppercase"} fontWeight={"bold"}>Name</Typography>, width: 500,renderCell: (params) => (
+      <Typography variant="body1" color="black">
+        {params.value}
+      </Typography>)},
+    { field: "phone", headerName: <Typography variant="p" color={"#0551B6"} textTransform={"uppercase"} fontWeight={"bold"}>Phone</Typography>, width: 200,renderCell: (params) => (
+      <Typography variant="body1" color="black">
+        {params.value}
+      </Typography>) },
   ];
 
   const rows = firms?.map((firm) => ({ name: firm?.name, phone: firm?.phone, id:firm?._id }));
@@ -27,8 +32,8 @@ const ListFirms = () => {
   const closeModal = () => {
     setShowModal(false)
   }
- React.useEffect(() => {
-    getFirms();
+useEffect(() => {
+    getStock("firms");
   }, []);
 
   
@@ -43,6 +48,7 @@ const ListFirms = () => {
           pageSize={5}
           getRowId={row=>row.id} //! Her satırı  kimliklendirme
           onRowClick={handleRowClick}
+          
         />
       </Box>
       <Typography fontSize={"14px"} mt={2} textAlign={"end"} pr={23} color={"brown"}>Click on a firm row for firm details.</Typography>

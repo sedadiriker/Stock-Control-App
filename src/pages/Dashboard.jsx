@@ -13,20 +13,21 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Avatar, Badge, Button, Menu, MenuItem, Paper } from "@mui/material";
 import DrawerList from "../components/DrawerList";
 import Home from "./Home";
-import { Dashboard } from "@mui/icons-material";
 import { useSelector } from "react-redux";
 import useApiRequest from "../services/useApiRequest";
-import AddBrand from "./AddBrand";
-import AddPurchase from "./AddPurchase";
-import AddSales from "./AddSales";
-import AddFirm from "./AddFirm";
-import AddProduct from "./AddProduct";
+
 import { useNavigate } from "react-router";
-import ListProducts from "./ListProducts";
-import ListBrands from "./ListBrands";
-import ListFirms from "./ListFirms";
-import ListPurchases from "./ListPurchases";
-import ListSales from "./ListSales";
+import AddBrand from "./Brands/AddBrand";
+import ListBrands from "./Brands/ListBrands";
+import AddFirm from "./Firms/AddFirm";
+import ListFirms from "./Firms/ListFirms";
+import AddProduct from "./Products/AddProduct";
+import ListProducts from "./Products/ListProducts";
+import AddPurchase from "./Purchases/AddPurchase";
+import ListPurchases from "./Purchases/ListPurchases";
+import AddSales from "./Sales/AddSales";
+import ListSales from "./Sales/ListSales";
+
 
 const drawerWidth = 240;
 

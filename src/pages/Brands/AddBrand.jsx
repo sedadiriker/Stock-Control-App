@@ -3,10 +3,10 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { Form, Formik } from "formik";
 import { object, string } from "yup";
-import useStockRequest from "../services/useStockRequest";
+import useStockRequest from "../../services/useStockRequest";
 
 const AddBrand = () => {
-  const{addBrand} = useStockRequest()
+  const{addStock} = useStockRequest()
 
   const addBrandSchema = object({
     name: string()
@@ -32,7 +32,7 @@ const AddBrand = () => {
             }}
             validationSchema={addBrandSchema}
             onSubmit={(values, actions) => {
-              addBrand(values)
+              addStock("brands",values)
               actions.resetForm();
               actions.setSubmitting(false);
             }}

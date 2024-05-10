@@ -3,10 +3,10 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { Form, Formik } from "formik";
 import { number, object, string } from "yup";
-import useStockRequest from "../services/useStockRequest";
+import useStockRequest from "../../services/useStockRequest";
 
 const AddFirm = () => {
-  const{addFirm} = useStockRequest()
+  const{addStock} = useStockRequest()
 
   const addFirmSchema = object({
     name: string()
@@ -38,7 +38,7 @@ const AddFirm = () => {
             }}
             validationSchema={addFirmSchema}
             onSubmit={(values, actions) => {
-              addFirm(values)
+              addStock("firms",values)
               actions.resetForm();
               actions.setSubmitting(false);
             }}

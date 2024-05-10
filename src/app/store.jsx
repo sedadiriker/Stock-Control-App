@@ -1,13 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "../features/authSlice";
-import firmReducer from "../features/firmSlice";
-import brandReducer from "../features/brandSlice";
+import stockReducer from "../features/stockSlice";
 
 const store = configureStore({
   reducer: {
     auth: authReducer,
-    getfirms : firmReducer,
-    getbrands: brandReducer,
+    stock: stockReducer
   },
   devTools: process.env.NODE_ENV !== "production",
 });

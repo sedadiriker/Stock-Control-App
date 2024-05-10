@@ -106,7 +106,7 @@ const DrawerList = ({ handleClickPath }) => {
           <ListItemButton
             sx={{
               color: "white",
-              ":hover": { backgroundColor: "#0551B6" },
+              "&:hover": { backgroundColor: "#0551B6" },
               "& .MuiSvgIcon-root": { color: "white" },
             }}
             aria-controls={selectedMenu === index ? "demo-customized-menu" : undefined}
