@@ -98,7 +98,7 @@ const Drawer = styled(MuiDrawer, {
 
 export default function MiniDrawer() {
   const { user,token } = useSelector((state) => state.auth);
-  console.log(token);
+  // console.log(token);
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -145,6 +145,7 @@ export default function MiniDrawer() {
     },
   }));
 const navigate = useNavigate()
+
   const handleClickPath = (path) => {
     navigate(path)
     setSelectedPath(path);
@@ -240,9 +241,9 @@ const navigate = useNavigate()
         <DrawerHeader />
         
         {selectedPath === "/stock/addpurchase" ? (
-          <AddPurchase />
+          <AddPurchase handleClickPath={handleClickPath} />
         ) : selectedPath === "/stock/addsales" ? (
-          <AddSales />
+          <AddSales handleClickPath={handleClickPath}  />
         ) : selectedPath === "/stock/addfirm" ? (
           <AddFirm />
         ) : selectedPath === "/stock/addbrand" ? (

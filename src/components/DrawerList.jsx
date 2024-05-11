@@ -70,7 +70,7 @@ const DrawerList = ({ handleClickPath }) => {
     { title: "Dashboard", icon: <DashboardCustomizeIcon />, path: "/stock" },
     { title: "Purchases", icon: <ShoppingCartIcon />},
     { title: "Sales", icon: <AttachMoneyIcon />},
-    { title: "Firms", icon: <StoreIcon />},
+    { title: "Firms", icon: <StoreIcon />,path: "/stock/firms"},
     { title: "Brands", icon: <StarsIcon /> },
     { title: "Products", icon: <InventoryIcon />},
   ];

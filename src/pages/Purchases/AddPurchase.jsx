@@ -1,5 +1,6 @@
 import {
   Button,
+  Divider,
   FormControl,
   InputLabel,
   MenuItem,
@@ -13,13 +14,12 @@ import { Form, Formik } from "formik";
 import useStockRequest from "../../services/useStockRequest";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 
-const AddPurchase = () => {
-
-
+const AddPurchase = ({handleClickPath}) => {
   const { addStock,getStock } = useStockRequest();
   const{firms,brands,products} = useSelector(state => state.stock)
-
+  const navigate = useNavigate()
   useEffect(()=>{
     getStock("firms")
     getStock("brands")
@@ -116,7 +116,12 @@ const AddPurchase = () => {
                         },
                       }}
                       
-                    >
+                    > <MenuItem onClick={() => {
+                      handleClickPath("/stock/addfirm")
+                    }}  key={"addfirm"} value="Add New Firm">
+                    Add New Firm
+                  </MenuItem>
+                    <Divider/>
                       {
                         firms?.map(({_id,name}) => (
                           <MenuItem key={_id}  value={name}>{name}</MenuItem>
@@ -149,7 +154,12 @@ const AddPurchase = () => {
                         },
                       }}
                       
-                    >
+                    > <MenuItem onClick={() => {
+                      handleClickPath("/stock/addbrand")
+                    }}  key={"addbrand"} value="Add New Brand">
+                    Add New Brand
+                  </MenuItem>
+                    <Divider/>
                       {
                         brands?.map(({_id,name}) => (
                           <MenuItem key={_id} value={name}>{name}</MenuItem>
@@ -182,7 +192,12 @@ const AddPurchase = () => {
                         },
                       }}
                       
-                    >
+                    > <MenuItem onClick={() => {
+                      handleClickPath("/stock/addproduct")
+                    }}  key={"addproduct"} value="Add New Product">
+                    Add New Product
+                  </MenuItem>
+                    <Divider/>
                       {
                         products?.map(({_id,name}) => (
                           <MenuItem key={_id} value={name}>{name}</MenuItem>
