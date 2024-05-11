@@ -95,7 +95,7 @@ const ListBrands = () => {
     {
       field: "actions",
       headerName: (
-        <Box textAlign={"center"} sx={{ width: 150 }}>
+        <Box textAlign={"center"} >
           <Typography
             variant="p"
             color={"#0551B6"}
@@ -122,7 +122,7 @@ console.log("selectedProduct",selectedProduct)
   const rows = products?.map((product) => ({
     name: product?.name,
     category: product?.categoryId.name,
-    brand: product?.brandId,
+    brand: product?.brandId.name,
     stock: product?.quantity,
   }));
 

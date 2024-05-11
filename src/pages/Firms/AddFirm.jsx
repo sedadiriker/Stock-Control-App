@@ -149,7 +149,7 @@ const AddFirm = () => {
                   <TextField
                     label="Firm İmageUrl *"
                     name="image"
-                    id="image"
+                    id="imageUrl"
                     type="text"
                     variant="outlined"
                     value={values.image}

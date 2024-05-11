@@ -4,6 +4,7 @@ const initialState = {
     firms: [],
     brands: [],
     products: [],
+    categories: [],
     loading:false,
     error:false
 
