@@ -19,7 +19,7 @@ const style = {
   p: 4,
 };
 
-const ListBrands = () => {
+const ListProducts = () => {
   const { getStock, deleteStock } = useStockRequest();
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
@@ -199,4 +199,4 @@ console.log("selectedProduct",selectedProduct)
   );
 };
 
-export default ListBrands;
+export default ListProducts;

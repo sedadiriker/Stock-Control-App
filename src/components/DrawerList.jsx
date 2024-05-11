@@ -79,7 +79,7 @@ const DrawerList = ({ handleClickPath }) => {
     [],
     [
       { title: "Add Purchase", icon: <AddToPhotosIcon />, path: "/stock/addpurchase" },
-      { title: "List Purchases", icon: <FormatListBulletedIcon />, path: "/stock/listpuchases" },
+      { title: "List Purchases", icon: <FormatListBulletedIcon />, path: "/stock/listpurchases" },
     ],
     [
       { title: "Add Sales", icon: <AddToPhotosIcon />, path: "/stock/addsales" },

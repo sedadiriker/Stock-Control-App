@@ -29,7 +29,7 @@ const AppRouter = () => {
             <Route path="addfirm" element={<AddFirm />} />
             <Route path="addbrand" element={<AddBrand />} />
             <Route path="addproduct" element={<AddProduct />} />
-            <Route path="addpurchases" element={<AddPurchase />} />
+            <Route path="addpurchase" element={<AddPurchase />} />
             <Route path="listpurchases" element={<ListPurchases />} />
             <Route path="listproducts" element={<ListProducts />} />
             <Route path="listsales" element={<ListSales />} />

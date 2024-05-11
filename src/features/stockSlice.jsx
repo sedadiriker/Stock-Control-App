@@ -5,6 +5,7 @@ const initialState = {
     brands: [],
     products: [],
     categories: [],
+    purchases: [],
     loading:false,
     error:false
 
