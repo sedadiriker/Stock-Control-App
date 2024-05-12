@@ -41,6 +41,7 @@ const AddPurchase = ({handleClickPath}) => {
           variant="h5"
           fontWeight={"bold"}
           textTransform={"uppercase"}
+          sx={{fontSize:{xs:"14px", md:"1rem"}}}
         >
           Add Purchase
         </Typography>
@@ -90,6 +91,7 @@ const AddPurchase = ({handleClickPath}) => {
                   py: "3rem",
                   px: "1.5rem",
                   borderRadius: "10px",
+                  width:{xs:"100%", md:"60%"}
                 }}
               >
                 <Box sx={{ minWidth: 120 }}>
@@ -277,7 +279,7 @@ const AddPurchase = ({handleClickPath}) => {
                   type="submit"
                   disabled={isSubmitting}
                   color="primary"
-                  sx={{ width: "30%", m: "auto" }}
+                  sx={{ width:{xs:"90%", md:"30%"}, m: "auto" }}
                 >
                   Add Purchase
                 </Button>

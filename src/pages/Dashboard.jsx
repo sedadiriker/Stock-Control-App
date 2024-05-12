@@ -225,7 +225,7 @@ export default function MiniDrawer() {
                   anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
                   variant="dot"
                 >
-                  <Avatar sx={{ bgcolor: "#A5292A90" }}>{`${user
+                  <Avatar sx={{ bgcolor: "#A5292A90", width:{xs:"25px", md:"30px"}, height:{xs:"25px", md:"30px", } }}>{`${user
                     .slice(0, 1)
                     .toUpperCase()}`}</Avatar>
                 </StyledBadge>
@@ -259,7 +259,7 @@ export default function MiniDrawer() {
           <DrawerList handleClickPath={handleClickPath} />
         </Paper>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box component="main" sx={{ flexGrow: 1, p:1, py:3 }}>
         <DrawerHeader />
 
         {selectedPath === "/stock/addpurchase" ? (

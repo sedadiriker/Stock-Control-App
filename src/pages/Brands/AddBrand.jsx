@@ -5,12 +5,11 @@ import { Form, Formik } from "formik";
 import { object, string } from "yup";
 import useStockRequest from "../../services/useStockRequest";
 
-const AddBrand = ({handleClickPath}) => {
-  const{addStock} = useStockRequest()
+const AddBrand = ({ handleClickPath }) => {
+  const { addStock } = useStockRequest();
 
   const addBrandSchema = object({
-    name: string()
-      .required("Name is required"),
+    name: string().required("Name is required"),
     image: string().required("imageUrl is required"),
   });
   return (
@@ -23,115 +22,133 @@ const AddBrand = ({handleClickPath}) => {
         alignItems: "start",
       }}
     >
-      <Container sx={{ display:"flex", flexDirection:"column", gap:"2rem"}}>
-      <Typography textAlign={"center"} color={"brown"} variant="h5" fontWeight={"bold"} textTransform={"uppercase"}>Add Brand</Typography>
+      <Container sx={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
+        <Typography
+          textAlign={"center"}
+          color={"brown"}
+          variant="h5"
+          fontWeight={"bold"}
+          textTransform={"uppercase"}
+          sx={{ fontSize: { xs: "14px", md: "1rem" } }}
+        >
+          Add Brand
+        </Typography>
         <Formik
-            initialValues={{
-              name: "",
-              image: "",
-            }}
-            validationSchema={addBrandSchema}
-            onSubmit={(values, actions) => {
-              addStock("brands",values)
-              actions.resetForm();
-              actions.setSubmitting(false);
-              handleClickPath("/stock/listbrands")
-            }}
-          >
-            {({
-              values,
-              handleChange,
-              handleBlur,
-              touched,
-              errors,
-              isSubmitting,
-            }) => (
-              <Form>
-                <Box width={"60%"} m={"auto"} sx={{ display: "flex", flexDirection: "column", gap: 2, backgroundColor:"#0551B670", py:"3rem", px:"1.5rem", borderRadius:"10px" }}>
+          initialValues={{
+            name: "",
+            image: "",
+          }}
+          validationSchema={addBrandSchema}
+          onSubmit={(values, actions) => {
+            addStock("brands", values);
+            actions.resetForm();
+            actions.setSubmitting(false);
+            handleClickPath("/stock/listbrands");
+          }}
+        >
+          {({
+            values,
+            handleChange,
+            handleBlur,
+            touched,
+            errors,
+            isSubmitting,
+          }) => (
+            <Form>
+              <Box
+                width={"60%"}
+                m={"auto"}
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 2,
+                  backgroundColor: "#0551B670",
+                  py: "3rem",
+                  px: "1.5rem",
+                  borderRadius: "10px",
+                  width:{xs:"100%", md:"60%"}
+                }}
+              >
                 <TextField
-                    label="Brand Name *"
-                    name="name"
-                    id="name"
-                    type="text"
-                    variant="outlined"
-                    value={values.name}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={touched.name && Boolean(errors.name)}
-                    helperText={touched.name && errors.name}
-                    InputProps={{
-                      sx: {
-                        color: "white",
-                        "& .MuiOutlinedInput-notchedOutline": {
-                          borderColor: "white",
-                        },
-                        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                          borderColor: "#37B3E2",
-                        },
-                        "&:hover .MuiOutlinedInput-notchedOutline": {
-                          borderColor: "brown",
-                        },
+                  label="Brand Name *"
+                  name="name"
+                  id="name"
+                  type="text"
+                  variant="outlined"
+                  value={values.name}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={touched.name && Boolean(errors.name)}
+                  helperText={touched.name && errors.name}
+                  InputProps={{
+                    sx: {
+                      color: "white",
+                      "& .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "white",
                       },
-                    }}
-                    InputLabelProps={{
-                      sx: {
-                        color: "white",
+                      "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#37B3E2",
                       },
-                    }}
-                  />
-               
-                  <TextField
-                    label="Brand İmageUrl *"
-                    name="image"
-                    id="image"
-                    type="text"
-                    variant="outlined"
-                    value={values.image}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={touched.image && Boolean(errors.image)}
-                    helperText={touched.image && errors.image}
-                    InputProps={{
-                      sx: {
-                        color: "white",
-                        "& .MuiOutlinedInput-notchedOutline": {
-                          borderColor: "white",
-                        },
-                        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                          borderColor: "#37B3E2",
-                        },
-                        "&:hover .MuiOutlinedInput-notchedOutline": {
-                          borderColor: "brown",
-                        },
+                      "&:hover .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "brown",
                       },
-                    }}
-                    InputLabelProps={{
-                      sx: {
-                        color: "white",
+                    },
+                  }}
+                  InputLabelProps={{
+                    sx: {
+                      color: "white",
+                    },
+                  }}
+                />
+
+                <TextField
+                  label="Brand İmageUrl *"
+                  name="image"
+                  id="image"
+                  type="text"
+                  variant="outlined"
+                  value={values.image}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={touched.image && Boolean(errors.image)}
+                  helperText={touched.image && errors.image}
+                  InputProps={{
+                    sx: {
+                      color: "white",
+                      "& .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "white",
                       },
-                    }}
-                  />
-                
-                  <Button
-                    variant="contained"
-                    type="submit"
-                    disabled={isSubmitting}
-                    color="primary"
-                    sx={{width:"30%", m:"auto"}}
-                    
-                  >
-                    Add Brand
-                  </Button>
-                  
-                </Box>
-              </Form>
-            )}
-          </Formik>
-          
+                      "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#37B3E2",
+                      },
+                      "&:hover .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "brown",
+                      },
+                    },
+                  }}
+                  InputLabelProps={{
+                    sx: {
+                      color: "white",
+                    },
+                  }}
+                />
+
+                <Button
+                  variant="contained"
+                  type="submit"
+                  disabled={isSubmitting}
+                  color="primary"
+                  sx={{ width:{xs:"90%", md:"30%"}, m: "auto" }}
+                >
+                  Add Brand
+                </Button>
+              </Box>
+            </Form>
+          )}
+        </Formik>
       </Container>
     </Box>
   );
-}
+};
 
-export default AddBrand
-
+export default AddBrand;

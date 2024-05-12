@@ -39,6 +39,7 @@ const useApiRequest = () => {
       navigate("/stock");
     } catch (error) {
       dispatch(fetchFail());
+      console.log(error)
     }
   };
 

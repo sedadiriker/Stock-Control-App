@@ -5,19 +5,7 @@ import useStockRequest from "../../services/useStockRequest";
 import { useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Button, Modal } from "@mui/material";
-
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
+import DeleteProductModal from "../../components/DeleteProductModal";
 
 const ListProducts = () => {
   const { getStock, deleteStock } = useStockRequest();
@@ -36,7 +24,7 @@ const ListProducts = () => {
           fontWeight={"bold"}
           sx={{
             fontSize: {
-              xs: "10px",
+              xs: "8px",
               md: "18px",
             },
           }}
@@ -72,7 +60,7 @@ const ListProducts = () => {
           fontWeight={"bold"}
           sx={{
             fontSize: {
-              xs: "10px",
+              xs: "8px",
               md: "18px",
             },
           }}
@@ -108,7 +96,7 @@ const ListProducts = () => {
           fontWeight={"bold"}
           sx={{
             fontSize: {
-              xs: "10px",
+              xs: "8px",
               md: "18px",
             },
           }}
@@ -144,7 +132,7 @@ const ListProducts = () => {
           fontWeight={"bold"}
           sx={{
             fontSize: {
-              xs: "10px",
+              xs: "8px",
               md: "18px",
             },
           }}
@@ -182,7 +170,7 @@ const ListProducts = () => {
             textAlign={"center"}
             sx={{
               fontSize: {
-                xs: "10px",
+                xs: "8px",
                 md: "18px",
               },
             }}
@@ -239,7 +227,16 @@ const ListProducts = () => {
   }, []);
 
   return (
-    <>
+    <Box
+      sx={{
+        backgroundColor: "#F3F3F3",
+        p: 2,
+        mt: 3,
+        borderRadius: "10px",
+        width: { xs: "100%", md: "100%" },
+      }}
+    >
+      {" "}
       <Typography
         textAlign={"center"}
         color={"brown"}
@@ -247,13 +244,12 @@ const ListProducts = () => {
         fontWeight={"bold"}
         textTransform={"uppercase"}
         my={4}
+        sx={{fontSize:{xs:"14px", md:"1rem"}}}
       >
         List Of Products
       </Typography>
       <Box
         style={{
-          height: "50vh",
-          width: { xs: "100%", md: "70%" },
           margin: "auto",
         }}
       >
@@ -266,42 +262,14 @@ const ListProducts = () => {
           autoPageSize
         />
       </Box>
-      <Modal
-        open={deleteConfirmationOpen}
-        onClose={handleCancelDelete}
-        aria-labelledby="delete-confirmation-modal-title"
-        aria-describedby="delete-confirmation-modal-description"
-      >
-        <Box sx={style}>
-          <Typography
-            textAlign={"center"}
-            color={"brown"}
-            textTransform={"uppercase"}
-            fontWeight={"bold"}
-            gutterBottom
-          >
-            Delete Product
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            {`Are you sure you want to delete ${selectedProduct?.name}?`}
-          </Typography>
-          <Box display="flex" justifyContent="center" gap={2} mt={2}>
-            <Button variant="contained" color="info" onClick={handleDelete}>
-              Delete
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={handleCancelDelete}
-            >
-              Cancel
-            </Button>
-          </Box>
-        </Box>
-      </Modal>
-
-      
-    </>
+      {/* DELETEMODE */}
+      <DeleteProductModal
+        selectedProduct={selectedProduct}
+        deleteConfirmationOpen={deleteConfirmationOpen}
+        handleDelete={handleDelete}
+        handleCancelDelete={handleCancelDelete}
+      />
+    </Box>
   );
 };
 

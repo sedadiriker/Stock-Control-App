@@ -16,19 +16,8 @@ import {
   TextField,
 } from "@mui/material";
 import { Form, Formik } from "formik";
-import { useRef } from 'react';
-
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "50%",
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
+import { useRef } from "react";
+import { style } from "../Brands/ListBrands";
 
 const ListSales = () => {
   const { getStock, deleteStock, editStock } = useStockRequest();
@@ -36,12 +25,11 @@ const ListSales = () => {
   const [editMode, setEditMode] = useState(false);
   const formRef = useRef(null); // Form ref'i oluştur
 
-  const {  brands, products } = useSelector((state) => state.stock);
+  const { brands, products } = useSelector((state) => state.stock);
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
   const { sales } = useSelector((state) => state.stock);
-console.log(sales)
+  console.log(sales);
 
- 
   const columns = [
     {
       field: "date",
@@ -51,6 +39,12 @@ console.log(sales)
           color={"#0551B6"}
           textTransform={"uppercase"}
           fontWeight={"bold"}
+          sx={{
+            fontSize: {
+              xs: "8px",
+              md: "18px",
+            },
+          }}
         >
           Date
         </Typography>
@@ -58,7 +52,16 @@ console.log(sales)
       flex: 1, // içeriğe göre yer kapla
       renderCell: (params) => (
         <Box sx={{ display: "flex", alignItems: "center", height: "100%" }}>
-          <Typography variant="body1" color="black">
+          <Typography
+            variant="body1"
+            color="black"
+            sx={{
+              fontSize: {
+                xs: "10px",
+                md: "15px",
+              },
+            }}
+          >
             {new Date(params.value).toLocaleString()}
           </Typography>
         </Box>
@@ -72,6 +75,12 @@ console.log(sales)
           color={"#0551B6"}
           textTransform={"uppercase"}
           fontWeight={"bold"}
+          sx={{
+            fontSize: {
+              xs: "8px",
+              md: "18px",
+            },
+          }}
         >
           Brand
         </Typography>
@@ -79,7 +88,16 @@ console.log(sales)
       flex: 1,
       renderCell: (params) => (
         <Box sx={{ display: "flex", alignItems: "center", height: "100%" }}>
-          <Typography variant="body1" color="black">
+          <Typography
+            variant="body1"
+            color="black"
+            sx={{
+              fontSize: {
+                xs: "10px",
+                md: "15px",
+              },
+            }}
+          >
             {params.value}
           </Typography>
         </Box>
@@ -93,6 +111,12 @@ console.log(sales)
           color={"#0551B6"}
           textTransform={"uppercase"}
           fontWeight={"bold"}
+          sx={{
+            fontSize: {
+              xs: "8px",
+              md: "18px",
+            },
+          }}
         >
           Product
         </Typography>
@@ -100,7 +124,16 @@ console.log(sales)
       flex: 1,
       renderCell: (params) => (
         <Box sx={{ display: "flex", alignItems: "center", height: "100%" }}>
-          <Typography variant="body1" color="black">
+          <Typography
+            variant="body1"
+            color="black"
+            sx={{
+              fontSize: {
+                xs: "10px",
+                md: "15px",
+              },
+            }}
+          >
             {params.value}
           </Typography>
         </Box>
@@ -114,6 +147,12 @@ console.log(sales)
           color={"#0551B6"}
           textTransform={"uppercase"}
           fontWeight={"bold"}
+          sx={{
+            fontSize: {
+              xs: "8px",
+              md: "18px",
+            },
+          }}
         >
           Quantity
         </Typography>
@@ -121,7 +160,16 @@ console.log(sales)
       flex: 1,
       renderCell: (params) => (
         <Box sx={{ display: "flex", alignItems: "center", height: "100%" }}>
-          <Typography variant="body1" color="black">
+          <Typography
+            variant="body1"
+            color="black"
+            sx={{
+              fontSize: {
+                xs: "10px",
+                md: "15px",
+              },
+            }}
+          >
             {params.value}
           </Typography>
         </Box>
@@ -135,6 +183,12 @@ console.log(sales)
           color={"#0551B6"}
           textTransform={"uppercase"}
           fontWeight={"bold"}
+          sx={{
+            fontSize: {
+              xs: "8px",
+              md: "18px",
+            },
+          }}
         >
           Price
         </Typography>
@@ -142,7 +196,16 @@ console.log(sales)
       flex: 1,
       renderCell: (params) => (
         <Box sx={{ display: "flex", alignItems: "center", height: "100%" }}>
-          <Typography variant="body1" color="black">
+          <Typography
+            variant="body1"
+            color="black"
+            sx={{
+              fontSize: {
+                xs: "10px",
+                md: "15px",
+              },
+            }}
+          >
             {params.value}
           </Typography>
         </Box>
@@ -156,6 +219,12 @@ console.log(sales)
           color={"#0551B6"}
           textTransform={"uppercase"}
           fontWeight={"bold"}
+          sx={{
+            fontSize: {
+              xs: "8px",
+              md: "18px",
+            },
+          }}
         >
           Amount
         </Typography>
@@ -163,7 +232,16 @@ console.log(sales)
       flex: 1,
       renderCell: (params) => (
         <Box sx={{ display: "flex", alignItems: "center", height: "100%" }}>
-          <Typography variant="body1" color="black">
+          <Typography
+            variant="body1"
+            color="black"
+            sx={{
+              fontSize: {
+                xs: "10px",
+                md: "15px",
+              },
+            }}
+          >
             {params.value}
           </Typography>
         </Box>
@@ -179,6 +257,12 @@ console.log(sales)
             textTransform={"uppercase"}
             fontWeight={"bold"}
             textAlign={"center"}
+            sx={{
+              fontSize: {
+                xs: "8px",
+                md: "18px",
+              },
+            }}
           >
             Actions
           </Typography>
@@ -195,11 +279,25 @@ console.log(sales)
           }}
         >
           <EditIcon
-            sx={{ cursor: "pointer", color: "green" }}
+            sx={{
+              cursor: "pointer",
+              color: "green",
+              fontSize: {
+                xs: "10px",
+                md: "15px",
+              },
+            }}
             onClick={() => handleEditClick(params.row)}
           />
           <DeleteIcon
-            sx={{ cursor: "pointer", color: "brown" }}
+            sx={{
+              cursor: "pointer",
+              color: "brown",
+              fontSize: {
+                xs: "10px",
+                md: "15px",
+              },
+            }}
             onClick={() => handleDeleteConfirmation(params.row)}
           />
         </Box>
@@ -253,22 +351,32 @@ console.log(sales)
   }, []);
 
   return (
-    <>
+    <Box
+      sx={{
+        backgroundColor: "#F3F3F3",
+        p: 2,
+        mt: 3,
+        borderRadius: "10px",
+        width: { xs: "100%", md: "100%" },
+      }}
+    >
       <Typography
         textAlign={"center"}
         color={"brown"}
         variant="h5"
         fontWeight={"bold"}
         textTransform={"uppercase"}
+        my={4}
+        sx={{ fontSize: { xs: "14px", md: "1rem" } }}
       >
         List Of Sales
       </Typography>
-      <Box style={{ height: "70vh", width: "100%", margin: "auto" }}>
+      <Box style={{ margin: "auto" }}>
         <DataGrid
           rows={rows}
           columns={columns}
           pageSize={5}
-          checkboxSelection
+          // checkboxSelection
           disableSelectionOnClick
           getRowId={(row) => row.id} //! Her satırı  kimliklendirme
         />
@@ -301,7 +409,6 @@ console.log(sales)
                 price: selectedSales?.price || "",
               }}
               onSubmit={(values, actions) => {
-               
                 const brandId = brands.find(
                   (brand) => brand.name === values.brand
                 )?._id; //find ile bul, id sini yakala
@@ -315,11 +422,11 @@ console.log(sales)
                   quantity: values.quantity,
                   price: values.price,
                 };
-                editStock("sales",selectedSales.id, formData);
-                console.log("selected",selectedSales)
+                editStock("sales", selectedSales.id, formData);
+                console.log("selected", selectedSales);
                 actions.resetForm();
                 actions.setSubmitting(false);
-                console.log("form",formData)
+                console.log("form", formData);
               }}
             >
               {({ values, handleChange, handleBlur, isSubmitting }) => (
@@ -337,7 +444,6 @@ console.log(sales)
                       borderRadius: "10px",
                     }}
                   >
-              
                     <Box sx={{ minWidth: 120 }}>
                       <FormControl fullWidth>
                         <InputLabel
@@ -520,7 +626,7 @@ console.log(sales)
           </Box>
         </Box>
       </Modal>
-    </>
+    </Box>
   );
 };
 

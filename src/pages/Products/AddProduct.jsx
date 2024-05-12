@@ -47,6 +47,7 @@ const AddProduct = ({handleClickPath}) => {
           variant="h5"
           fontWeight={"bold"}
           textTransform={"uppercase"}
+          sx={{fontSize:{xs:"14px", md:"1rem"}}}
         >
           Add Product
         </Typography>
@@ -83,7 +84,6 @@ const AddProduct = ({handleClickPath}) => {
           }) => (
             <Form>
               <Box
-                width={"60%"}
                 m={"auto"}
                 sx={{
                   display: "flex",
@@ -93,6 +93,7 @@ const AddProduct = ({handleClickPath}) => {
                   py: "3rem",
                   px: "1.5rem",
                   borderRadius: "10px",
+                  width:{xs:"100%", md:"60%"}
                 }}
               >
                 <Box sx={{ minWidth: 120 }}>
@@ -199,7 +200,7 @@ const AddProduct = ({handleClickPath}) => {
                   type="submit"
                   disabled={isSubmitting}
                   color="primary"
-                  sx={{ width: "30%", m: "auto" }}
+                  sx={{ width:{xs:"90%", md:"30%"}, m: "auto" }}
                 >
                   Add Product
                 </Button>

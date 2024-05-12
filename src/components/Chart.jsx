@@ -2,18 +2,23 @@ import Chart from 'react-apexcharts';
 
 const CreateChart = ({ data, chartName }) => {
   const options = {
+    stroke: {
+      curve: 'smooth', 
+      width: 3, 
+      colors: [chartName === 'Sales' ? '#008001' : '#A5292A']
+    },
     width:500,
     chart: {
       background: '#0551B630',
       toolbar: { 
         show: false // toolbarı kapatma
-      }
+      },
     },
     responsive: [{
       breakpoint: 768, 
       options: {
         chart: {
-          width: 270, 
+          width: 300, 
         }
       }
     }],
@@ -33,10 +38,11 @@ const CreateChart = ({ data, chartName }) => {
       text: chartName,
       align: 'left',
       style: {
-        color: chartName === "Sales" ? "#008001" : "brown",
         fontSize: '20px',
+        color:chartName === 'Sales' ? '#008001' : '#A5292A'
       },
     },
+  
   };
 
   const series = [

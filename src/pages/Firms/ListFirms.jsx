@@ -6,55 +6,150 @@ import FirmDetailModal from "../../components/FirmDetailModal";
 import { useEffect, useState } from "react";
 
 const ListFirms = () => {
-  const [selectedFirm, setSelectedFirm] =useState(null)
-  const [showModal, setShowModal] = useState(false)
+  const [selectedFirm, setSelectedFirm] = useState(null);
+  const [showModal, setShowModal] = useState(false);
   const { firms } = useSelector((state) => state.stock);
   const { getStock } = useStockRequest();
-// console.log(firms)
+  // console.log(firms)
 
   const columns = [
-    { field: "name", headerName: <Typography variant="p" color={"#0551B6"} textTransform={"uppercase"} fontWeight={"bold"}>Name</Typography>,flex:1,renderCell: (params) => (
-      <Typography variant="body1" color="black">
-        {params.value}
-      </Typography>)},
-    { field: "phone", headerName: <Typography variant="p" color={"#0551B6"} textTransform={"uppercase"} fontWeight={"bold"}>Phone</Typography>, flex:1,renderCell: (params) => (
-      <Typography variant="body1" color="black">
-        {params.value}
-      </Typography>) },
+    {
+      field: "name",
+      headerName: (
+        <Typography
+          variant="p"
+          color={"#0551B6"}
+          textTransform={"uppercase"}
+          fontWeight={"bold"}
+          sx={{
+            fontSize: {
+              xs: "8px",
+              md: "18px",
+            },
+          }}
+        >
+          Name
+        </Typography>
+      ),
+      flex: 1,
+      renderCell: (params) => (
+        <Typography
+          variant="body1"
+          color="black"
+          sx={{
+            fontSize: {
+              xs: "10px",
+              md: "15px",
+            },
+            cursor:"pointer"
+          }}
+        >
+          {params.value}
+        </Typography>
+      ),
+    },
+    {
+      field: "phone",
+      headerName: (
+        <Typography
+          variant="p"
+          color={"#0551B6"}
+          textTransform={"uppercase"}
+          fontWeight={"bold"}
+          sx={{
+            fontSize: {
+              xs: "8px",
+              md: "18px",
+            },
+          }}
+        >
+          Phone
+        </Typography>
+      ),
+      flex: 1,
+      renderCell: (params) => (
+        <Typography
+          variant="body1"
+          color="black"
+          sx={{
+            fontSize: {
+              xs: "10px",
+              md: "15px",
+            },
+            cursor:"pointer"
+          }}
+        >
+          {params.value}
+        </Typography>
+      ),
+    },
   ];
 
-  const rows = firms?.map((firm) => ({ name: firm?.name, phone: firm?.phone, id:firm?._id }));
+  const rows = firms?.map((firm) => ({
+    name: firm?.name,
+    phone: firm?.phone,
+    id: firm?._id,
+  }));
 
   const handleRowClick = (row) => {
-    setSelectedFirm(row)
-    setShowModal(true)
-  }
+    setSelectedFirm(row);
+    setShowModal(true);
+  };
 
   const closeModal = () => {
-    setShowModal(false)
-  }
-useEffect(() => {
+    setShowModal(false);
+  };
+  useEffect(() => {
     getStock("firms");
   }, []);
 
-  
   return (
-    <>
+    <Box
+      sx={{
+        backgroundColor: "#F3F3F3",
+        p: 2,
+        mt: 3,
+        borderRadius: "10px",
+        width: { xs: "100%", md: "80%" },
+        m:"auto"
+      }}
+    >
       {" "}
-      <Typography textAlign={"center"} color={"brown"} variant="h5" fontWeight={"bold"} textTransform={"uppercase"}>List Of Firms</Typography>
-      <Box style={{ height: "70vh", width: "70%", margin: "auto" }}>
+      <Typography
+        textAlign={"center"}
+        color={"brown"}
+        variant="h5"
+        fontWeight={"bold"}
+        textTransform={"uppercase"}
+        my={4}
+        sx={{ fontSize: { xs: "14px", md: "1rem" } }}
+      >
+        List Of Firms
+      </Typography>
+      <Box style={{ margin: "auto" }}>
         <DataGrid
           rows={rows}
           columns={columns}
           pageSize={5}
-          getRowId={row=>row.id} //! Her satırı  kimliklendirme
+          getRowId={(row) => row.id} //! Her satırı  kimliklendirme
           onRowClick={handleRowClick}
-          
         />
       </Box>
-      <Typography fontSize={"14px"} mt={2} textAlign={"end"} pr={23} color={"brown"}>Click on a firm row for firm details.</Typography>
-      <FirmDetailModal open={showModal} handleClose={closeModal} firm={selectedFirm}/>
-    </>
+      <Typography
+        fontSize={"14px"}
+        mt={2}
+        textAlign={"end"}
+        sx={{pr:{xs:0,md:5}}}
+        color={"brown"}
+      >
+        Click on a firm row for firm details.
+      </Typography>
+      <FirmDetailModal
+        open={showModal}
+        handleClose={closeModal}
+        firm={selectedFirm}
+      />
+    </Box>
   );
 };
 

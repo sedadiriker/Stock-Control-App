@@ -7,8 +7,9 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Button, Modal, TextField } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import DeleteBrandModal from "../../components/DeleteBrandModal";
 
-const style = {
+export const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
@@ -21,14 +22,16 @@ const style = {
 };
 
 const ListBrands = () => {
-  const { editStock, getStock, deleteStock } = useStockRequest();
+  const { editStock, getStock,deleteStock } = useStockRequest();
+  const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [selectedBrand, setSelectedBrand] = useState(null);
+  console.log(selectedBrand)
   const [formData, setFormData] = useState({
     name: "",
     image: "",
   });
-  const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
+  
   const { brands } = useSelector((state) => state.stock);
 
   const columns = [
@@ -40,6 +43,12 @@ const ListBrands = () => {
           color={"#0551B6"}
           textTransform={"uppercase"}
           fontWeight={"bold"}
+          sx={{
+            fontSize: {
+              xs: "8px",
+              md: "18px",
+            },
+          }}
         >
           Logo
         </Typography>
@@ -62,13 +71,24 @@ const ListBrands = () => {
           color={"#0551B6"}
           textTransform={"uppercase"}
           fontWeight={"bold"}
+          sx={{
+            fontSize: {
+              xs: "8px",
+              md: "18px",
+            },
+          }}
         >
           Name
         </Typography>
       ),
       flex: 1,
       renderCell: (params) => (
-        <Typography variant="body1" color="black">
+        <Typography variant="body1" color="black" sx={{
+          fontSize: {
+            xs: "10px",
+            md: "1rem",
+          },
+        }}>
           {params.value}
         </Typography>
       ),
@@ -81,6 +101,12 @@ const ListBrands = () => {
             color={"#0551B6"}
             textTransform={"uppercase"}
             fontWeight={"bold"}
+            sx={{
+              fontSize: {
+                xs: "8px",
+                md: "18px",
+              },
+            }}
           >
             Actions
           </Typography>
@@ -89,11 +115,17 @@ const ListBrands = () => {
       renderCell: (params) => (
         <>
           <EditIcon
-            sx={{ cursor: "pointer", color: "green" }}
+            sx={{ cursor: "pointer", color: "green",mx:2,fontSize: {
+              xs: "12px",
+              md: "1.2rem",
+            }, }}
             onClick={() => handleEditClick(params.row)}
           />
           <DeleteIcon
-            sx={{ cursor: "pointer", color: "brown" }}
+            sx={{ cursor: "pointer", color: "brown",fontSize: {
+              xs: "12px",
+              md: "1.2rem",
+            }, }}
             onClick={() => handleDeleteConfirmation(params.row)}
           />
         </>
@@ -106,15 +138,6 @@ const ListBrands = () => {
     image: brand?.image,
   }));
 
-  const handleDeleteConfirmation = (row) => {
-    const selectedBrand = brands.find((brand) => brand.name === row.name);
-    if (selectedBrand) {
-      setSelectedBrand(selectedBrand);
-      setDeleteConfirmationOpen(true);
-    } else {
-      console.error("Selected brand not found in brands!");
-    }
-  };
   const handleDelete = () => {
     deleteStock("brands", selectedBrand._id);
     setDeleteConfirmationOpen(false);
@@ -124,6 +147,16 @@ const ListBrands = () => {
     setSelectedBrand(null);
     setDeleteConfirmationOpen(false);
   };
+  const handleDeleteConfirmation = (row) => {
+    const selectBrand = brands.find((brand) => brand.name === row.name);
+    if (selectBrand) {
+      setSelectedBrand(selectBrand);
+      setDeleteConfirmationOpen(true);
+    } else {
+      console.error("Selected brand not found in brands!");
+    }
+  };
+
   const handleEditClick = (row) => {
     setEditMode(true);
     setFormData({ ...row });
@@ -154,17 +187,28 @@ const ListBrands = () => {
   }, []);
 
   return (
-    <>
+    <Box sx={{
+      backgroundColor: "#F3F3F3",
+      p: 2,
+      mt: 3,
+      borderRadius: "10px",
+      width: { xs: "100%", md: "80%" },
+      m:"auto"
+    }}>
       <Typography
         textAlign={"center"}
         color={"brown"}
         variant="h5"
         fontWeight={"bold"}
         textTransform={"uppercase"}
+        my={4}
+        sx={{fontSize:{xs:"14px", md:"1rem"}}}
       >
         List Of Brands
       </Typography>
-      <Box style={{ height: "70vh", width: "70%", margin: "auto" }}>
+      <Box style={{
+          margin: "auto",
+        }}>
         <DataGrid
           rows={rows}
           columns={columns}
@@ -216,41 +260,10 @@ const ListBrands = () => {
           </Box>
         </Modal>
       )}
+      
       {/* DELETEMODE */}
-      <Modal
-        open={deleteConfirmationOpen}
-        onClose={handleCancelDelete}
-        aria-labelledby="delete-confirmation-modal-title"
-        aria-describedby="delete-confirmation-modal-description"
-      >
-        <Box sx={style}>
-          <Typography
-            textAlign={"center"}
-            color={"brown"}
-            textTransform={"uppercase"}
-            fontWeight={"bold"}
-            gutterBottom
-          >
-            Delete Brand
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            {`Are you sure you want to delete ${selectedBrand?.name}?`}
-          </Typography>
-          <Box display="flex" justifyContent="center" gap={2} mt={2}>
-            <Button variant="contained" color="info" onClick={handleDelete}>
-              Delete
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={handleCancelDelete}
-            >
-              Cancel
-            </Button>
-          </Box>
-        </Box>
-      </Modal>
-    </>
+      <DeleteBrandModal selectedBrand={selectedBrand} deleteConfirmationOpen={deleteConfirmationOpen} handleDelete={handleDelete} handleCancelDelete={handleCancelDelete}/>
+    </Box>
   );
 };
 

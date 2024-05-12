@@ -1,40 +1,20 @@
-import { Box, Container, Divider, Typography } from "@mui/material";
+import { Box,Divider, Typography } from "@mui/material";
 import { useEffect } from "react";
 import useStockRequest from "../services/useStockRequest";
 import { useSelector } from "react-redux";
 import { LineChart } from "@mui/x-charts/LineChart";
 import TrendingDownIcon from "@mui/icons-material/TrendingDown";
-import AssignmentIcon from "@mui/icons-material/Assignment";
 import NotificationImportantIcon from "@mui/icons-material/NotificationImportant";
 import { DataGrid } from "@mui/x-data-grid";
-import MonetizationOnTwoToneIcon from "@mui/icons-material/MonetizationOnTwoTone";
 import LoyaltyOutlinedIcon from "@mui/icons-material/LoyaltyOutlined";
 import CreateChart from "../components/Chart";
+import HomeHistory from "../components/HomeHistory";
 
 const Home = () => {
   const { getStock } = useStockRequest();
   const { sales, purchases, products } = useSelector((state) => state.stock);
-  console.log(sales);
 
-  const totalSalesAmount = sales.reduce(
-    (total, sale) => total + sale.amount,
-    0
-  );
-  const totalPurchasesAmount = purchases.reduce(
-    (total, purchase) => total + purchase.amount,
-    0
-  );
-  const profit = totalSalesAmount - totalPurchasesAmount;
-  const totalPurchasesQuantity = purchases.reduce(
-    (total, purchase) => total + purchase.quantity,
-    0
-  );
-  const totalSalesQuantity = sales.reduce(
-    (total, sale) => total + sale.quantity,
-    0
-  );
-
-  //! Stock filtreleme
+  //! Stock alert(filtreleme)
   const lowStockProducts = products.filter((product) => product.quantity < 100);
   // console.log(lowStockProducts);
 
@@ -56,6 +36,7 @@ const Home = () => {
   //En çok satılak ilk 3 ürün
   const bestSellers = sortedSales.slice(0, 3);
   console.log(bestSellers);
+
 
   const productColumns = [
     {
@@ -209,6 +190,7 @@ const Home = () => {
     brand: product?.brandId.name,
     stock: product?.quantity,
   }));
+
   const sellerColumns = [
     {
       field: "name",
@@ -288,21 +270,7 @@ const Home = () => {
     quantity: product[1],
   }));
 
-  const totals = [
-    { value: totalSalesAmount.toLocaleString("tr-TR"), name: "Total Sales" },
-    {
-      value: totalPurchasesAmount.toLocaleString("tr-TR"),
-      name: "Total Purchases",
-    },
-  ];
-
-  const totalproducts = [
-    { value: `${totalSalesQuantity}`, name: "Total Sold Products" },
-    {
-      value: `${totalPurchasesQuantity}`,
-      name: "Total Purchased Products",
-    },
-  ];
+ 
 
   useEffect(() => {
     getStock("sales");
@@ -313,98 +281,11 @@ const Home = () => {
   return (
     <>
       {/* HİSTORY */}
-      <Box sx={{ backgroundColor: "#F3F3F3", p: 2, borderRadius: "10px",width:{xs:"80%", md:"100%"} }}>
-        <Typography
-          fontWeight={"bold"}
-          color={"brown"}
-          textTransform={"uppercase"}
-          sx={{fontSize:{xs:"12px", md:"1rem"}}}
-        >
-          <AssignmentIcon
-            sx={{
-              fontSize:{xs:"2rem", md:"3rem"},
-              color: "#A5292A",
-              backgroundColor: "#EBDADB",
-              borderRadius: "50%",
-              mr: 3,
-              p: 1,
-            }}
-          />
-          Sales & Purchases History
-        </Typography>
-        <Divider sx={{ borderColor: "#A5292A40" }} />
-        <Container sx={{ display: "flex", alignItems: "center",flexWrap:"wrap", justifyContent:"center" }}>
-          <Box sx={{ flex: 1 }}>
-            <div className="px-12 pt-5">
-              <dl className="flex gap-3 flex-wrap">
-                {totals.map((total) => (
-                  <div
-                    key={total.id}
-                    className="mx-auto flex  flex-col gap-y-4 text-center"
-                  >
-                    <dt className="text-base leading-7 text-gray-600">
-                      {total.name}
-                    </dt>
-                    <dd className="order-first text-xl font-semibold tracking-tight text-gray-900 sm:text-2xl">
-                      {total.value}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
-            <Divider />
-            <div className="px-10 pt-5">
-              <dl className="flex gap-3 flex-wrap">
-                {totalproducts.map((purchase) => (
-                  <div
-                    key={purchase.id}
-                    className="mx-auto flex max-w-xs flex-col gap-y-4 text-center"
-                  >
-                    <dt className="text-base leading-7 text-gray-600">
-                      {purchase.name}
-                    </dt>
-                    <dd className="order-first text-xl font-semibold tracking-tight text-gray-900 sm:text-2xl">
-                      {purchase.value}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
-          </Box>
-
-          <Box
-            sx={{
-              p: 10,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <Typography sx={{ fontSize: "1.5rem" }}>
-              <MonetizationOnTwoToneIcon
-                sx={{
-                  fontSize: "3rem",
-                  color: profit > 0 ? "green" : profit < 0 ? "red" : "inherit",
-                }}
-              />{" "}
-              Profit
-            </Typography>
-            <Typography
-              sx={{
-                color: profit > 0 ? "green" : profit < 0 ? "red" : "inherit",
-                fontSize: "2rem",
-                fontWeight: "bold",
-              }}
-            >
-              {profit.toLocaleString("tr-TR")}$
-            </Typography>
-          </Box>
-        </Container>
-      </Box>
+      <HomeHistory/>
 
       {/* CHART */}
       <Box
-        sx={{ backgroundColor: "#F3F3F3", p: 2, mt: 3, borderRadius: "10px",width:{xs:"80%", md:"100%"} }}
+        sx={{ backgroundColor: "#F3F3F3", p: 2, mt: 3, borderRadius: "10px",width:{xs:"88%", md:"100%"} }}
       >
         <Typography
           fontWeight={"bold"}
@@ -490,7 +371,7 @@ const Home = () => {
 
       {/* STOCK ALERT */}
       <Box
-        sx={{ backgroundColor: "#F3F3F3", p: 2, mt: 3, borderRadius: "10px",width: {xs:"80%", md:"100%"},
+        sx={{ backgroundColor: "#F3F3F3", p: 2, mt: 3, borderRadius: "10px",width: {xs:"88%", md:"100%"},
       }}
       >
         <Typography
@@ -536,7 +417,7 @@ const Home = () => {
           backgroundColor: "#F3F3F3",
           p: 2,
           mt: 3,
-          width: {xs:"75%", md:"50%"},
+          width: {xs:"87%", md:"50%"},
           borderRadius: "10px",
         }}
       >
