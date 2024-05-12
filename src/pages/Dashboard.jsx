@@ -34,8 +34,7 @@ import ListPurchases from "./Purchases/ListPurchases";
 import AddSales from "./Sales/AddSales";
 import ListSales from "./Sales/ListSales";
 import { useState } from "react";
-
-
+import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
 
 const drawerWidth = 240;
 
@@ -107,10 +106,10 @@ const Drawer = styled(MuiDrawer, {
 export default function MiniDrawer() {
   const { user } = useSelector((state) => state.auth);
   const theme = useTheme();
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const openDrop = Boolean(anchorEl);
-  const [selectedPath, setSelectedPath] =useState("/stock");
+  const [selectedPath, setSelectedPath] = useState("/stock");
   const { logout } = useApiRequest();
 
   console.log(selectedPath);
@@ -195,7 +194,19 @@ export default function MiniDrawer() {
               </IconButton>
             </Tooltip>
 
-            <Typography variant="h6" noWrap component="div" color={"black"} textTransform={"uppercase"} fontWeight={"bold"}>
+            <Typography
+              noWrap
+              component="div"
+              color={"#03215A"}
+              textTransform={"uppercase"}
+              fontWeight={"bold"}
+              sx={{
+                textShadow: "1px 1px 2px #03215A",
+                WebkitTextStroke: "0.3px white",
+                fontSize:{xs:"12px", md:"1.5rem"}
+              }}
+            >
+              <BarChartOutlinedIcon sx={{fontSize:"2rem", color:"brown"}}/>
               Stock Control System
             </Typography>
           </Box>
@@ -256,11 +267,11 @@ export default function MiniDrawer() {
         ) : selectedPath === "/stock/addsales" ? (
           <AddSales handleClickPath={handleClickPath} />
         ) : selectedPath === "/stock/addfirm" ? (
-          <AddFirm handleClickPath={handleClickPath}/>
+          <AddFirm handleClickPath={handleClickPath} />
         ) : selectedPath === "/stock/addbrand" ? (
-          <AddBrand handleClickPath={handleClickPath}/>
+          <AddBrand handleClickPath={handleClickPath} />
         ) : selectedPath === "/stock/addproduct" ? (
-          <AddProduct handleClickPath={handleClickPath}/>
+          <AddProduct handleClickPath={handleClickPath} />
         ) : selectedPath === "/stock/listproducts" ? (
           <ListProducts />
         ) : selectedPath === "/stock/listbrands" ? (

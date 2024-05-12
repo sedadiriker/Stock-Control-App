@@ -8,11 +8,14 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import NotificationImportantIcon from "@mui/icons-material/NotificationImportant";
 import { DataGrid } from "@mui/x-data-grid";
 import MonetizationOnTwoToneIcon from "@mui/icons-material/MonetizationOnTwoTone";
-import LoyaltyOutlinedIcon from '@mui/icons-material/LoyaltyOutlined';
+import LoyaltyOutlinedIcon from "@mui/icons-material/LoyaltyOutlined";
+import CreateChart from "../components/Chart";
+
 const Home = () => {
   const { getStock } = useStockRequest();
   const { sales, purchases, products } = useSelector((state) => state.stock);
   console.log(sales);
+
   const totalSalesAmount = sales.reduce(
     (total, sale) => total + sale.amount,
     0
@@ -47,10 +50,12 @@ const Home = () => {
   // console.log("group",salesByProduct)
 
   //Gruplandırılan ürünlerden en çok atılandan en aza satılana sıralama
-  const sortedSales = Object.entries(salesByProduct).sort(([, a], [, b]) => b - a);
+  const sortedSales = Object.entries(salesByProduct).sort(
+    ([, a], [, b]) => b - a
+  );
   //En çok satılak ilk 3 ürün
   const bestSellers = sortedSales.slice(0, 3);
-  console.log(bestSellers)
+  console.log(bestSellers);
 
   const productColumns = [
     {
@@ -63,7 +68,7 @@ const Home = () => {
           fontWeight={"bold"}
           sx={{
             fontSize: {
-              xs: "10px",
+              xs: "8px",
               md: "18px",
             },
           }}
@@ -99,7 +104,7 @@ const Home = () => {
           fontWeight={"bold"}
           sx={{
             fontSize: {
-              xs: "10px",
+              xs: "7px",
               md: "18px",
             },
           }}
@@ -135,7 +140,7 @@ const Home = () => {
           fontWeight={"bold"}
           sx={{
             fontSize: {
-              xs: "10px",
+              xs: "7px",
               md: "18px",
             },
           }}
@@ -171,7 +176,7 @@ const Home = () => {
           fontWeight={"bold"}
           sx={{
             fontSize: {
-              xs: "10px",
+              xs: "7px",
               md: "18px",
             },
           }}
@@ -280,17 +285,20 @@ const Home = () => {
   ];
   const sellerRows = bestSellers?.map((product) => ({
     name: product[0],
-    quantity: product[1]
+    quantity: product[1],
   }));
 
-  const totalsales = [
-    { id: 1, value: `${totalSalesAmount}`, name: "Total Sales" },
-    { id: 2, value: `${totalSalesQuantity}`, name: "Total Sold Products" },
-  ];
-  const totalpurchases = [
-    { id: 1, value: `${totalPurchasesAmount}`, name: "Total Purchases" },
+  const totals = [
+    { value: totalSalesAmount.toLocaleString("tr-TR"), name: "Total Sales" },
     {
-      id: 2,
+      value: totalPurchasesAmount.toLocaleString("tr-TR"),
+      name: "Total Purchases",
+    },
+  ];
+
+  const totalproducts = [
+    { value: `${totalSalesQuantity}`, name: "Total Sold Products" },
+    {
       value: `${totalPurchasesQuantity}`,
       name: "Total Purchased Products",
     },
@@ -305,18 +313,18 @@ const Home = () => {
   return (
     <>
       {/* HİSTORY */}
-      <Box sx={{ backgroundColor: "#F3F3F3", p: 2 }}>
+      <Box sx={{ backgroundColor: "#F3F3F3", p: 2, borderRadius: "10px",width:{xs:"80%", md:"100%"} }}>
         <Typography
-          variant="h6"
           fontWeight={"bold"}
           color={"brown"}
           textTransform={"uppercase"}
+          sx={{fontSize:{xs:"12px", md:"1rem"}}}
         >
           <AssignmentIcon
             sx={{
-              fontSize: "3rem",
+              fontSize:{xs:"2rem", md:"3rem"},
               color: "#A5292A",
-              backgroundColor: "#FFECB3",
+              backgroundColor: "#EBDADB",
               borderRadius: "50%",
               mr: 3,
               p: 1,
@@ -324,29 +332,30 @@ const Home = () => {
           />
           Sales & Purchases History
         </Typography>
-        <Container sx={{ display: "flex", alignItems: "center" }}>
+        <Divider sx={{ borderColor: "#A5292A40" }} />
+        <Container sx={{ display: "flex", alignItems: "center",flexWrap:"wrap", justifyContent:"center" }}>
           <Box sx={{ flex: 1 }}>
-            <div className="mx-auto max-w-7xl px-6 lg:px-8 pt-5">
+            <div className="px-12 pt-5">
               <dl className="flex gap-3 flex-wrap">
-                {totalsales.map((sale) => (
+                {totals.map((total) => (
                   <div
-                    key={sale.id}
-                    className="mx-auto flex max-w-xs flex-col gap-y-4 text-center"
+                    key={total.id}
+                    className="mx-auto flex  flex-col gap-y-4 text-center"
                   >
                     <dt className="text-base leading-7 text-gray-600">
-                      {sale.name}
+                      {total.name}
                     </dt>
                     <dd className="order-first text-xl font-semibold tracking-tight text-gray-900 sm:text-2xl">
-                      {sale.value}$
+                      {total.value}
                     </dd>
                   </div>
                 ))}
               </dl>
             </div>
             <Divider />
-            <div className="mx-auto max-w-7xl px-6 lg:px-8 pt-5">
+            <div className="px-10 pt-5">
               <dl className="flex gap-3 flex-wrap">
-                {totalpurchases.map((purchase) => (
+                {totalproducts.map((purchase) => (
                   <div
                     key={purchase.id}
                     className="mx-auto flex max-w-xs flex-col gap-y-4 text-center"
@@ -355,48 +364,59 @@ const Home = () => {
                       {purchase.name}
                     </dt>
                     <dd className="order-first text-xl font-semibold tracking-tight text-gray-900 sm:text-2xl">
-                      {purchase.value}$
+                      {purchase.value}
                     </dd>
                   </div>
                 ))}
               </dl>
             </div>
           </Box>
-         
-            <Box
+
+          <Box
+            sx={{
+              p: 10,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Typography sx={{ fontSize: "1.5rem" }}>
+              <MonetizationOnTwoToneIcon
+                sx={{
+                  fontSize: "3rem",
+                  color: profit > 0 ? "green" : profit < 0 ? "red" : "inherit",
+                }}
+              />{" "}
+              Profit
+            </Typography>
+            <Typography
               sx={{
-                p: 10,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
+                color: profit > 0 ? "green" : profit < 0 ? "red" : "inherit",
+                fontSize: "2rem",
+                fontWeight: "bold",
               }}
             >
-              <Typography sx={{ fontSize: "1.5rem" }}>
-                <MonetizationOnTwoToneIcon sx={{ fontSize: "3rem",  color: profit > 0 ? "green" : profit < 0 ? "red" : "inherit", }} /> Profit
-              </Typography>
-              <Typography
-                sx={{
-                  color: profit > 0 ? "green" : profit < 0 ? "red" : "inherit",fontSize:"2rem",fontWeight:"bold"
-                }}
-              >
-                {profit}$
-              </Typography>
-            </Box>
+              {profit.toLocaleString("tr-TR")}$
+            </Typography>
+          </Box>
         </Container>
       </Box>
 
       {/* CHART */}
-      <Box sx={{ backgroundColor: "#F3F3F3", p: 2, mt: 3 }}>
+      <Box
+        sx={{ backgroundColor: "#F3F3F3", p: 2, mt: 3, borderRadius: "10px",width:{xs:"80%", md:"100%"} }}
+      >
         <Typography
-          variant="h6"
           fontWeight={"bold"}
           color={"brown"}
           textTransform={"uppercase"}
           mb={2}
+          sx={{fontSize:{xs:"12px", md:"1rem"}}}
+
         >
           <TrendingDownIcon
             sx={{
-              fontSize: "3rem",
+              fontSize:{xs:"2rem", md:"3rem"},
               color: "#0551B6",
               backgroundColor: "#11B4BB50",
               borderRadius: "50%",
@@ -406,9 +426,14 @@ const Home = () => {
           />
           Statistics
         </Typography>
-
-        <Box display={"flex"} flexWrap={"wrap"} gap={2}>
-          <LineChart
+        <Divider sx={{ borderColor: "#A5292A40" }} />
+        <Box
+          display={"flex"}
+          flexWrap={"wrap"}
+          gap={5}
+          justifyContent={"center"}
+        >
+          {/* <LineChart
             sx={{ backgroundColor: "#0551B630", borderRadius: "20px" }}
             xAxis={[
               {
@@ -432,8 +457,8 @@ const Home = () => {
             ]}
             width={400}
             height={300}
-          />
-          <LineChart
+          /> */}
+          {/* <LineChart
             sx={{ backgroundColor: "#0551B630", borderRadius: "20px" }}
             xAxis={[
               {
@@ -457,24 +482,29 @@ const Home = () => {
             ]}
             width={400}
             height={300}
-          />
+          /> */}
+          <CreateChart data={sales} chartName="Sales" />
+          <CreateChart data={purchases} chartName="Purchases" />
         </Box>
       </Box>
 
       {/* STOCK ALERT */}
-      <Box sx={{ backgroundColor: "#F3F3F3", p: 2, mt: 3 }}>
+      <Box
+        sx={{ backgroundColor: "#F3F3F3", p: 2, mt: 3, borderRadius: "10px",width: {xs:"80%", md:"100%"},
+      }}
+      >
         <Typography
-          variant="h6"
           fontWeight={"bold"}
           color={"brown"}
           textTransform={"uppercase"}
           mb={2}
+          sx={{fontSize:{xs:"12px", md:"1rem"}}}
         >
           <NotificationImportantIcon
             sx={{
-              fontSize: "3rem",
+              fontSize:{xs:"2rem", md:"3rem"},
               color: "#red",
-              backgroundColor: "#A5292A20",
+              backgroundColor: "#FFECB3",
               borderRadius: "50%",
               mr: 3,
               p: 1,
@@ -482,6 +512,7 @@ const Home = () => {
           />
           Stock alert
         </Typography>
+        <Divider sx={{ borderColor: "#A5292A40" }} />
         <Box
           style={{
             width: { xs: "100%", md: "70%" },
@@ -500,17 +531,25 @@ const Home = () => {
       </Box>
 
       {/* BEST SELLERS */}
-      <Box sx={{ backgroundColor: "#F3F3F3", p: 2, mt: 3,width:"50%" }}>
-      <Typography
-          variant="h6"
+      <Box
+        sx={{
+          backgroundColor: "#F3F3F3",
+          p: 2,
+          mt: 3,
+          width: {xs:"75%", md:"50%"},
+          borderRadius: "10px",
+        }}
+      >
+        <Typography
           fontWeight={"bold"}
           color={"brown"}
           textTransform={"uppercase"}
           mb={2}
+          sx={{fontSize:{xs:"12px", md:"1rem"}}}
         >
           <LoyaltyOutlinedIcon
             sx={{
-              fontSize: "3rem",
+              fontSize:{xs:"2rem", md:"3rem"},
               color: "#008001",
               backgroundColor: "#B6D1B1",
               borderRadius: "50%",
@@ -520,9 +559,9 @@ const Home = () => {
           />
           Best Sellers
         </Typography>
+        <Divider sx={{ borderColor: "#A5292A40" }} />
         <Box
           style={{
-            width: { xs: "100%", md: "50%" },
             margin: "auto",
           }}
         >
@@ -531,6 +570,7 @@ const Home = () => {
             columns={sellerColumns}
             pageSize={5}
             getRowId={(row) => row.name} //! Her satırı ismiyle kimliklendirme
+            sx={{width:"100%"}}
             autoHeight
             autoPageSize
           />
