@@ -39,7 +39,9 @@ const ListSales = () => {
   const {  brands, products } = useSelector((state) => state.stock);
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
   const { sales } = useSelector((state) => state.stock);
-  console.log(sales);
+console.log(sales)
+
+ 
   const columns = [
     {
       field: "date",

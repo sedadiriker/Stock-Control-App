@@ -5,7 +5,7 @@ import { Form, Formik } from "formik";
 import { number, object, string } from "yup";
 import useStockRequest from "../../services/useStockRequest";
 
-const AddFirm = () => {
+const AddFirm = ({handleClickPath}) => {
   const{addStock} = useStockRequest()
 
   const addFirmSchema = object({
@@ -41,6 +41,8 @@ const AddFirm = () => {
               addStock("firms",values)
               actions.resetForm();
               actions.setSubmitting(false);
+              handleClickPath("/stock/listfirms")
+
             }}
           >
             {({
@@ -52,7 +54,7 @@ const AddFirm = () => {
               isSubmitting,
             }) => (
               <Form>
-                <Box width={"60%"} m={"auto"} sx={{ display: "flex", flexDirection: "column", gap: 2, backgroundColor:"rgba(0, 0, 0, 0.7)", py:"3rem", px:"1.5rem", borderRadius:"10px" }}>
+                <Box width={"60%"} m={"auto"} sx={{ display: "flex", flexDirection: "column", gap: 2, backgroundColor:"#0551B670", py:"3rem", px:"1.5rem", borderRadius:"10px" }}>
                 <TextField
                     label="Firm Name *"
                     name="name"
@@ -74,7 +76,7 @@ const AddFirm = () => {
                           borderColor: "#37B3E2",
                         },
                         "&:hover .MuiOutlinedInput-notchedOutline": {
-                          borderColor: "#37B3E2",
+                          borderColor: "brown",
                         },
                       },
                     }}
@@ -105,7 +107,7 @@ const AddFirm = () => {
                           borderColor: "#37B3E2",
                         },
                         "&:hover .MuiOutlinedInput-notchedOutline": {
-                          borderColor: "#37B3E2",
+                          borderColor: "brown",
                         },
                       },
                     }}
@@ -136,7 +138,7 @@ const AddFirm = () => {
                           borderColor: "#37B3E2",
                         },
                         "&:hover .MuiOutlinedInput-notchedOutline": {
-                          borderColor: "#37B3E2",
+                          borderColor: "brown",
                         },
                       },
                     }}
@@ -167,7 +169,7 @@ const AddFirm = () => {
                           borderColor: "#37B3E2",
                         },
                         "&:hover .MuiOutlinedInput-notchedOutline": {
-                          borderColor: "#37B3E2",
+                          borderColor: "brown",
                         },
                       },
                     }}

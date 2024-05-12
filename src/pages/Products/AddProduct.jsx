@@ -12,27 +12,18 @@ import Container from "@mui/material/Container";
 import { Form, Formik } from "formik";
 import {  object, string } from "yup";
 import useStockRequest from "../../services/useStockRequest";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
-const AddProduct = () => {
+const AddProduct = ({handleClickPath}) => {
   const addProductSchema = object({
     name: string().required("Name is required"),
   });
 
-  // const [category, setCategory] = useState("");
-  // const [brand, setBrand] = useState("");
 
   const { addStock,getStock } = useStockRequest();
   const{categories,brands} = useSelector(state => state.stock)
-  console.log(categories)
-
-  // const handleCategory= (event) => {
-  //   setCategory(event.target.value);
-  // };
-  // const handleBrand= (event) => {
-  //   setBrand(event.target.value);
-  // };
+  // console.log(categories)
 
   useEffect(()=>{
     getStock("categories")
@@ -79,6 +70,7 @@ const AddProduct = () => {
             console.log("pro",formData)
             actions.resetForm();
             actions.setSubmitting(false);
+            handleClickPath("/stock/listproducts")
           }}
         >
           {({
@@ -97,7 +89,7 @@ const AddProduct = () => {
                   display: "flex",
                   flexDirection: "column",
                   gap: 2,
-                  backgroundColor: "rgba(0, 0, 0, 0.7)",
+                  backgroundColor: "#0551B670",
                   py: "3rem",
                   px: "1.5rem",
                   borderRadius: "10px",
@@ -122,7 +114,7 @@ const AddProduct = () => {
                           borderColor: "#37B3E2",
                         },
                         "&:hover .MuiOutlinedInput-notchedOutline": {
-                          borderColor: "#37B3E2",
+                          borderColor: "brown",
                         },
                       }}
                       
@@ -155,7 +147,7 @@ const AddProduct = () => {
                           borderColor: "#37B3E2",
                         },
                         "&:hover .MuiOutlinedInput-notchedOutline": {
-                          borderColor: "#37B3E2",
+                          borderColor: "brown",
                         },
                       }}
                       
@@ -170,7 +162,7 @@ const AddProduct = () => {
                   </FormControl>
                 </Box>
                 <TextField
-                  label="Firm Name *"
+                  label="Product Name *"
                   name="name"
                   id="name"
                   type="text"
@@ -190,7 +182,7 @@ const AddProduct = () => {
                         borderColor: "#37B3E2",
                       },
                       "&:hover .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "#37B3E2",
+                        borderColor: "brown",
                       },
                     },
                   }}
@@ -202,6 +194,7 @@ const AddProduct = () => {
                 />
 
                 <Button
+                
                   variant="contained"
                   type="submit"
                   disabled={isSubmitting}

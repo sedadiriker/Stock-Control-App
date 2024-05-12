@@ -10,13 +10,14 @@ const ListFirms = () => {
   const [showModal, setShowModal] = useState(false)
   const { firms } = useSelector((state) => state.stock);
   const { getStock } = useStockRequest();
-console.log(firms)
+// console.log(firms)
+
   const columns = [
-    { field: "name", headerName: <Typography variant="p" color={"#0551B6"} textTransform={"uppercase"} fontWeight={"bold"}>Name</Typography>, width: 500,renderCell: (params) => (
+    { field: "name", headerName: <Typography variant="p" color={"#0551B6"} textTransform={"uppercase"} fontWeight={"bold"}>Name</Typography>,flex:1,renderCell: (params) => (
       <Typography variant="body1" color="black">
         {params.value}
       </Typography>)},
-    { field: "phone", headerName: <Typography variant="p" color={"#0551B6"} textTransform={"uppercase"} fontWeight={"bold"}>Phone</Typography>, width: 200,renderCell: (params) => (
+    { field: "phone", headerName: <Typography variant="p" color={"#0551B6"} textTransform={"uppercase"} fontWeight={"bold"}>Phone</Typography>, flex:1,renderCell: (params) => (
       <Typography variant="body1" color="black">
         {params.value}
       </Typography>) },

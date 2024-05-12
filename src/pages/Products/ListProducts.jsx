@@ -34,11 +34,33 @@ const ListProducts = () => {
           color={"#0551B6"}
           textTransform={"uppercase"}
           fontWeight={"bold"}
+          sx={{
+            fontSize: {
+              xs: "10px",
+              md: "18px",
+            },
+          }}
         >
           Name
         </Typography>
       ),
-      width: 170,
+      flex: 1,
+      renderCell: (params) => (
+        <Box height={"100%"} display={"flex"} alignItems={"center"}>
+          <Typography
+            variant="body1"
+            color="black"
+            sx={{
+              fontSize: {
+                xs: "10px",
+                md: "15px",
+              },
+            }}
+          >
+            {params.value}
+          </Typography>
+        </Box>
+      ),
     },
     {
       field: "category",
@@ -48,15 +70,32 @@ const ListProducts = () => {
           color={"#0551B6"}
           textTransform={"uppercase"}
           fontWeight={"bold"}
+          sx={{
+            fontSize: {
+              xs: "10px",
+              md: "18px",
+            },
+          }}
         >
           Category
         </Typography>
       ),
-      width: 170,
+      flex: 1,
       renderCell: (params) => (
-        <Typography variant="body1" color="black">
-          {params.value}
-        </Typography>
+        <Box height={"100%"} display={"flex"} alignItems={"center"}>
+          <Typography
+            variant="body1"
+            color="black"
+            sx={{
+              fontSize: {
+                xs: "10px",
+                md: "15px",
+              },
+            }}
+          >
+            {params.value}
+          </Typography>
+        </Box>
       ),
     },
     {
@@ -67,15 +106,32 @@ const ListProducts = () => {
           color={"#0551B6"}
           textTransform={"uppercase"}
           fontWeight={"bold"}
+          sx={{
+            fontSize: {
+              xs: "10px",
+              md: "18px",
+            },
+          }}
         >
           Brand
         </Typography>
       ),
-      width: 150,
+      flex: 1,
       renderCell: (params) => (
-        <Typography variant="body1" color="black">
-          {params.value}
-        </Typography>
+        <Box height={"100%"} display={"flex"} alignItems={"center"}>
+          <Typography
+            variant="body1"
+            color="black"
+            sx={{
+              fontSize: {
+                xs: "10px",
+                md: "15px",
+              },
+            }}
+          >
+            {params.value}
+          </Typography>
+        </Box>
       ),
     },
     {
@@ -86,39 +142,72 @@ const ListProducts = () => {
           color={"#0551B6"}
           textTransform={"uppercase"}
           fontWeight={"bold"}
+          sx={{
+            fontSize: {
+              xs: "10px",
+              md: "18px",
+            },
+          }}
         >
           Stock
         </Typography>
       ),
-      width: 150,
+      flex: 1,
+      renderCell: (params) => (
+        <Box height={"100%"} display={"flex"} alignItems={"center"}>
+          <Typography
+            variant="body1"
+            color="black"
+            sx={{
+              fontSize: {
+                xs: "10px",
+                md: "15px",
+              },
+            }}
+          >
+            {params.value}
+          </Typography>
+        </Box>
+      ),
     },
     {
       field: "actions",
       headerName: (
-        <Box textAlign={"center"} >
+        <Box textAlign={"center"}>
           <Typography
             variant="p"
             color={"#0551B6"}
             textTransform={"uppercase"}
             fontWeight={"bold"}
             textAlign={"center"}
+            sx={{
+              fontSize: {
+                xs: "10px",
+                md: "18px",
+              },
+            }}
           >
             Actions
           </Typography>
         </Box>
       ),
-      width: 150,
+      flex: 1,
       renderCell: (params) => (
-        <Box textAlign={"center"}>
-          <DeleteIcon
-            sx={{ cursor: "pointer", color: "brown" }}
-            onClick={() => handleDeleteConfirmation(params.row)}
-          />
-        </Box>
+        <DeleteIcon
+          sx={{
+            cursor: "pointer",
+            color: "brown",
+            fontSize: {
+              xs: "14px",
+              md: "20px",
+            },
+          }}
+          onClick={() => handleDeleteConfirmation(params.row)}
+        />
       ),
     },
   ];
-console.log("selectedProduct",selectedProduct)
+  // console.log("selectedProduct",selectedProduct)
   const rows = products?.map((product) => ({
     name: product?.name,
     category: product?.categoryId.name,
@@ -157,15 +246,24 @@ console.log("selectedProduct",selectedProduct)
         variant="h5"
         fontWeight={"bold"}
         textTransform={"uppercase"}
+        my={4}
       >
         List Of Products
       </Typography>
-      <Box style={{ height: "70vh", width: "70%", margin: "auto" }}>
+      <Box
+        style={{
+          height: "50vh",
+          width: { xs: "100%", md: "70%" },
+          margin: "auto",
+        }}
+      >
         <DataGrid
           rows={rows}
           columns={columns}
           pageSize={5}
           getRowId={(row) => row.name} //! Her satırı ismiyle kimliklendirme
+          autoHeight
+          autoPageSize
         />
       </Box>
       <Modal
@@ -175,7 +273,13 @@ console.log("selectedProduct",selectedProduct)
         aria-describedby="delete-confirmation-modal-description"
       >
         <Box sx={style}>
-          <Typography textAlign={"center"} color={"brown"} textTransform={"uppercase"} fontWeight={"bold"} gutterBottom>
+          <Typography
+            textAlign={"center"}
+            color={"brown"}
+            textTransform={"uppercase"}
+            fontWeight={"bold"}
+            gutterBottom
+          >
             Delete Product
           </Typography>
           <Typography variant="body1" gutterBottom>
@@ -195,6 +299,8 @@ console.log("selectedProduct",selectedProduct)
           </Box>
         </Box>
       </Modal>
+
+      
     </>
   );
 };

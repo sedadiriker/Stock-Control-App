@@ -44,7 +44,7 @@ const ListBrands = () => {
           Logo
         </Typography>
       ),
-      width: 250,
+      flex: 1,
       renderCell: (params) => (
         <Box
           component={"img"}
@@ -66,7 +66,7 @@ const ListBrands = () => {
           Name
         </Typography>
       ),
-      width: 400,
+      flex: 1,
       renderCell: (params) => (
         <Typography variant="body1" color="black">
           {params.value}
@@ -76,7 +76,6 @@ const ListBrands = () => {
     {
       field: "actions",
       headerName: (
-        <Box display={"flex"} justifyContent={"center"} width={200}>
           <Typography
             variant="p"
             color={"#0551B6"}
@@ -85,11 +84,10 @@ const ListBrands = () => {
           >
             Actions
           </Typography>
-        </Box>
       ),
-      width: 200,
+      flex: 1,
       renderCell: (params) => (
-        <Box display={"flex"} justifyContent={"center"} gap={1}>
+        <>
           <EditIcon
             sx={{ cursor: "pointer", color: "green" }}
             onClick={() => handleEditClick(params.row)}
@@ -98,7 +96,7 @@ const ListBrands = () => {
             sx={{ cursor: "pointer", color: "brown" }}
             onClick={() => handleDeleteConfirmation(params.row)}
           />
-        </Box>
+        </>
       ),
     },
   ];
@@ -175,7 +173,7 @@ const ListBrands = () => {
         />
       </Box>
 
-       {/* EDİTMODE */}
+      {/* EDİTMODE */}
       {editMode && (
         <Modal
           open

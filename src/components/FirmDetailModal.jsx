@@ -18,7 +18,7 @@ import TextField from "@mui/material/TextField";
 import useStockRequest from "../services/useStockRequest";
 import DoneOutlineIcon from "@mui/icons-material/DoneOutline";
 import { useState, useEffect } from "react";
-
+import { Avatar, Button } from "@mui/material";
 const style = {
   position: "absolute",
   top: "50%",
@@ -58,6 +58,7 @@ const FirmDetailModal = ({ open, handleClose, firm }) => {
   );
   console.log("selected", selectedFirm);
   console.log("firms", firms);
+
   useEffect(() => {
     if (firm && open) {
       const selectedFirm = firm?.row;
@@ -107,7 +108,7 @@ const FirmDetailModal = ({ open, handleClose, firm }) => {
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <Card sx={{ maxWidth: 345 }}>
+        <Card sx={{ maxWidth: 345, bgcolor: "#F3F3F3" }}>
           <CardHeader
             title={
               !editMode ? (
@@ -130,13 +131,19 @@ const FirmDetailModal = ({ open, handleClose, firm }) => {
             }}
           />
           {!editMode ? (
-            <CardMedia
-              component="img"
-              height="194"
-              image={selectedFirm?.image}
-              alt={selectedFirm?.name}
-              sx={{ objectFit: "contain" }}
-            />
+            selectedFirm?.image ? (
+              <CardMedia
+                component="img"
+                height="194"
+                image={selectedFirm?.image}
+                alt={selectedFirm?.name}
+                sx={{ objectFit: "contain", px:1 }}
+              />
+            ) : (
+              <Avatar sx={{ bgcolor: "#03215A", m: "auto" }}>
+                {selectedFirm?.name.slice(0, 1).toUpperCase()}
+              </Avatar>
+            )
           ) : (
             <TextField
               id="image"
@@ -147,18 +154,22 @@ const FirmDetailModal = ({ open, handleClose, firm }) => {
               required
             />
           )}
+
           <CardContent>
             <Typography
               sx={{
                 display: "flex",
                 justifyContent: "center",
-                gap: "1rem",
+                gap: "10px",
                 alignItems: "center",
               }}
               variant="body2"
               color="text.secondary"
             >
-              <ContactPhoneIcon sx={{ color: "#03215A" }} />{" "}
+              <Button href={`tel:+90${selectedFirm?.phone}`} target="_blank">
+                <ContactPhoneIcon sx={{ color: "green", fontSize: "2rem" }} />
+              </Button>
+
               {!editMode ? (
                 selectedFirm?.phone
               ) : (
@@ -198,9 +209,18 @@ const FirmDetailModal = ({ open, handleClose, firm }) => {
               aria-expanded={expanded}
               aria-label="show more"
             >
-             <Box display={"flex"} justifyContent={"center"} alignItems={"center"}> 
-                <ExpandMoreIcon style={{borderRadius:"none"}} />
-                <Typography color={"brown"} style={{ display: expanded ? "none" : "inline-block" }}>Adress</Typography>
+              <Box
+                display={"flex"}
+                justifyContent={"center"}
+                alignItems={"center"}
+              >
+                <ExpandMoreIcon style={{ borderRadius: "none" }} />
+                <Typography
+                  color={"brown"}
+                  style={{ display: expanded ? "none" : "inline-block" }}
+                >
+                  Address
+                </Typography>
               </Box>
             </ExpandMore>
           </CardActions>

@@ -40,6 +40,7 @@ const ListPurchases = () => {
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
   const { purchases } = useSelector((state) => state.stock);
   console.log(purchases);
+
   const columns = [
     {
       field: "date",
@@ -273,6 +274,7 @@ const ListPurchases = () => {
     getStock("products");
   }, []);
 
+ 
   return (
     <>
       <Typography
@@ -292,6 +294,8 @@ const ListPurchases = () => {
           checkboxSelection
           disableSelectionOnClick
           getRowId={(row) => row.id} //! Her satırı  kimliklendirme
+          autoHeight
+          autoPageSize
         />
       </Box>
       {/* EDİTMODE */}

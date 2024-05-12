@@ -63,6 +63,8 @@ const AddSales = ({handleClickPath}) => {
             addStock("sales", formData);
             actions.resetForm();
             actions.setSubmitting(false);
+            handleClickPath("/stock/listsales")
+
           }}
         >
           {({
@@ -80,7 +82,7 @@ const AddSales = ({handleClickPath}) => {
                   display: "flex",
                   flexDirection: "column",
                   gap: 2,
-                  backgroundColor: "rgba(0, 0, 0, 0.7)",
+                  backgroundColor: "#0551B670",
                   py: "3rem",
                   px: "1.5rem",
                   borderRadius: "10px",
@@ -106,7 +108,7 @@ const AddSales = ({handleClickPath}) => {
                           borderColor: "#37B3E2",
                         },
                         "&:hover .MuiOutlinedInput-notchedOutline": {
-                          borderColor: "#37B3E2",
+                          borderColor: "brown",
                         },
                       }}
                       
@@ -144,7 +146,7 @@ const AddSales = ({handleClickPath}) => {
                           borderColor: "#37B3E2",
                         },
                         "&:hover .MuiOutlinedInput-notchedOutline": {
-                          borderColor: "#37B3E2",
+                          borderColor: "brown",
                         },
                       }}
                       
@@ -189,7 +191,7 @@ const AddSales = ({handleClickPath}) => {
                         borderColor: "#37B3E2",
                       },
                       "&:hover .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "#37B3E2",
+                        borderColor: "brown",
                       },
                     },
                   }}
@@ -221,7 +223,7 @@ const AddSales = ({handleClickPath}) => {
                         borderColor: "#37B3E2",
                       },
                       "&:hover .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "#37B3E2",
+                        borderColor: "brown",
                       },
                     },
                   }}

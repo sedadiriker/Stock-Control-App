@@ -14,12 +14,10 @@ import { Form, Formik } from "formik";
 import useStockRequest from "../../services/useStockRequest";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router";
 
 const AddPurchase = ({handleClickPath}) => {
   const { addStock,getStock } = useStockRequest();
   const{firms,brands,products} = useSelector(state => state.stock)
-  const navigate = useNavigate()
   useEffect(()=>{
     getStock("firms")
     getStock("brands")
@@ -69,14 +67,15 @@ const AddPurchase = ({handleClickPath}) => {
             addStock("purchases", formData);
             actions.resetForm();
             actions.setSubmitting(false);
+            handleClickPath("/stock/listpurchases")
+
           }}
         >
           {({
             values,
             handleChange,
             handleBlur,
-            touched,
-            errors,
+           
             isSubmitting,
           }) => (
             <Form>
@@ -87,7 +86,7 @@ const AddPurchase = ({handleClickPath}) => {
                   display: "flex",
                   flexDirection: "column",
                   gap: 2,
-                  backgroundColor: "rgba(0, 0, 0, 0.7)",
+                  backgroundColor: "#0551B670",
                   py: "3rem",
                   px: "1.5rem",
                   borderRadius: "10px",
@@ -112,7 +111,7 @@ const AddPurchase = ({handleClickPath}) => {
                           borderColor: "#37B3E2",
                         },
                         "&:hover .MuiOutlinedInput-notchedOutline": {
-                          borderColor: "#37B3E2",
+                          borderColor: "brown",
                         },
                       }}
                       
@@ -150,7 +149,7 @@ const AddPurchase = ({handleClickPath}) => {
                           borderColor: "#37B3E2",
                         },
                         "&:hover .MuiOutlinedInput-notchedOutline": {
-                          borderColor: "#37B3E2",
+                          borderColor: "brown",
                         },
                       }}
                       
@@ -188,7 +187,7 @@ const AddPurchase = ({handleClickPath}) => {
                           borderColor: "#37B3E2",
                         },
                         "&:hover .MuiOutlinedInput-notchedOutline": {
-                          borderColor: "#37B3E2",
+                          borderColor: "brown",
                         },
                       }}
                       
@@ -234,7 +233,7 @@ const AddPurchase = ({handleClickPath}) => {
                         borderColor: "#37B3E2",
                       },
                       "&:hover .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "#37B3E2",
+                        borderColor: "brown",
                       },
                     },
                   }}
@@ -266,7 +265,7 @@ const AddPurchase = ({handleClickPath}) => {
                         borderColor: "#37B3E2",
                       },
                       "&:hover .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "#37B3E2",
+                        borderColor: "brown",
                       },
                     },
                   }}

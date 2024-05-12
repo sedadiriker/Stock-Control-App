@@ -1,4 +1,3 @@
-import * as React from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
@@ -10,12 +9,19 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { Avatar, Badge, Button, Menu, MenuItem, Paper } from "@mui/material";
+import {
+  Avatar,
+  Badge,
+  Button,
+  Menu,
+  MenuItem,
+  Paper,
+  Tooltip,
+} from "@mui/material";
 import DrawerList from "../components/DrawerList";
 import Home from "./Home";
 import { useSelector } from "react-redux";
 import useApiRequest from "../services/useApiRequest";
-
 import { useNavigate } from "react-router";
 import AddBrand from "./Brands/AddBrand";
 import ListBrands from "./Brands/ListBrands";
@@ -27,6 +33,8 @@ import AddPurchase from "./Purchases/AddPurchase";
 import ListPurchases from "./Purchases/ListPurchases";
 import AddSales from "./Sales/AddSales";
 import ListSales from "./Sales/ListSales";
+import { useState } from "react";
+
 
 
 const drawerWidth = 240;
@@ -97,17 +105,17 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function MiniDrawer() {
-  const { user,token } = useSelector((state) => state.auth);
-  // console.log(token);
+  const { user } = useSelector((state) => state.auth);
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [open, setOpen] = useState(false)
+  const [anchorEl, setAnchorEl] = useState(null);
   const openDrop = Boolean(anchorEl);
-  const [selectedPath, setSelectedPath] = React.useState("/stock");
-  const {logout} = useApiRequest()
+  const [selectedPath, setSelectedPath] =useState("/stock");
+  const { logout } = useApiRequest();
 
-  console.log(selectedPath)
-  // profil dropdown
+  console.log(selectedPath);
+
+  //! profil dropdown
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -115,7 +123,7 @@ export default function MiniDrawer() {
     setAnchorEl(null);
   };
 
-  // Avatar
+  //! Avatar
   const StyledBadge = styled(Badge)(({ theme }) => ({
     "& .MuiBadge-badge": {
       backgroundColor: "#44b700",
@@ -144,10 +152,10 @@ export default function MiniDrawer() {
       },
     },
   }));
-const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleClickPath = (path) => {
-    navigate(path)
+    navigate(path);
     setSelectedPath(path);
   };
 
@@ -167,24 +175,27 @@ const navigate = useNavigate()
           sx={{
             display: "flex",
             justifyContent: "space-between",
-            backgroundColor: "white",
+            backgroundColor: "#C9D4E8",
           }}
         >
           <Box display={"flex"} alignItems={"center"}>
-            <IconButton
-              aria-label="open drawer"
-              onClick={handleDrawerOpen}
-              edge="start"
-              sx={{
-                marginRight: 5,
-                ...(open && { display: "none" }),
-                color: "#03215A",
-                ":hover": { backgroundColor: "#D2E2EC" },
-              }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" noWrap component="div" color={"black"}>
+            <Tooltip title="Open Menu">
+              <IconButton
+                aria-label="open drawer"
+                onClick={handleDrawerOpen}
+                edge="start"
+                sx={{
+                  marginRight: 5,
+                  ...(open && { display: "none" }),
+                  color: "#03215A",
+                  ":hover": { backgroundColor: "#D2E2EC" },
+                }}
+              >
+                <MenuIcon />
+              </IconButton>
+            </Tooltip>
+
+            <Typography variant="h6" noWrap component="div" color={"black"} textTransform={"uppercase"} fontWeight={"bold"}>
               Stock Control System
             </Typography>
           </Box>
@@ -203,7 +214,7 @@ const navigate = useNavigate()
                   anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
                   variant="dot"
                 >
-                  <Avatar sx={{ bgcolor: "blue" }}>{`${user
+                  <Avatar sx={{ bgcolor: "#A5292A90" }}>{`${user
                     .slice(0, 1)
                     .toUpperCase()}`}</Avatar>
                 </StyledBadge>
@@ -234,22 +245,22 @@ const navigate = useNavigate()
               )}
             </IconButton>
           </DrawerHeader>
-          <DrawerList handleClickPath={handleClickPath}/>
+          <DrawerList handleClickPath={handleClickPath} />
         </Paper>
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
-        
+
         {selectedPath === "/stock/addpurchase" ? (
           <AddPurchase handleClickPath={handleClickPath} />
         ) : selectedPath === "/stock/addsales" ? (
-          <AddSales handleClickPath={handleClickPath}  />
+          <AddSales handleClickPath={handleClickPath} />
         ) : selectedPath === "/stock/addfirm" ? (
-          <AddFirm />
+          <AddFirm handleClickPath={handleClickPath}/>
         ) : selectedPath === "/stock/addbrand" ? (
-          <AddBrand />
+          <AddBrand handleClickPath={handleClickPath}/>
         ) : selectedPath === "/stock/addproduct" ? (
-          <AddProduct />
+          <AddProduct handleClickPath={handleClickPath}/>
         ) : selectedPath === "/stock/listproducts" ? (
           <ListProducts />
         ) : selectedPath === "/stock/listbrands" ? (
