@@ -43,7 +43,6 @@ const RegisterForm = ({
   return (
     <Form>
       <Box
-        width={"60%"}
         m={"auto"}
         sx={{
           display: "flex",
@@ -53,6 +52,7 @@ const RegisterForm = ({
           py: "3rem",
           px: "1.5rem",
           borderRadius: "10px",
+          width:{xs:"90%",md:"60%"}
         }}
       >
         <TextField

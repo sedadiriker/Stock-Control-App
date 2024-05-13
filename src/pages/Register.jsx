@@ -11,12 +11,13 @@ const Register = () => {
 
   return (
     <Box
-      height={"100vh"}
+      minHeight={"100vh"}
       sx={{
         position: "relative",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        py:3
       }}
     >
       <Box
@@ -40,7 +41,7 @@ const Register = () => {
           color={"white"}
           fontWeight={"bold"}
           sx={{
-            fontSize: { xs: "1rem", md: "3rem" },
+            fontSize: { xs: "2rem", md: "3rem" },
             WebkitTextStroke: "1px #1876D1",
           }}
         >
