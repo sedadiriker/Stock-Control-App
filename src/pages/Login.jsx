@@ -8,6 +8,7 @@ import useApiRequest from "../services/useApiRequest";
 
 const Login = () => {
   const { login } = useApiRequest();
+
   const loginSchema = object({
     email: string()
       .email("Please enter a valid email")
@@ -54,7 +55,7 @@ const Login = () => {
           color={"white"}
           fontWeight={"bold"}
           sx={{
-            fontSize: { xs: "1rem", md: "3rem" },
+            fontSize: { xs: "2rem", md: "3rem" },
             WebkitTextStroke: "1px #1876D1",
           }}
         >
@@ -80,7 +81,6 @@ const Login = () => {
           }) => (
             <Form>
               <Box
-                width={"60%"}
                 m={"auto"}
                 sx={{
                   display: "flex",
@@ -90,6 +90,7 @@ const Login = () => {
                   py: "3rem",
                   px: "1.5rem",
                   borderRadius: "10px",
+                  width:{xs:"90%",md:"60%"}
                 }}
               >
                 <TextField
