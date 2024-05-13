@@ -21,10 +21,10 @@ const Home = () => {
   //! Best Sellers
   // adet ve adına göre yeni object
   const salesByProduct = sales.reduce((acc, sale) => {
-    if (!acc[sale.productId.name]) {
-      acc[sale.productId.name] = 0;
+    if (!acc[sale.productId?.name]) {
+      acc[sale.productId?.name] = 0;
     }
-    acc[sale.productId.name] += sale.quantity;
+    acc[sale.productId?.name] += sale.quantity;
     return acc;
   }, {});
   // console.log("group",salesByProduct)
