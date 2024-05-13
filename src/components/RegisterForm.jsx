@@ -61,11 +61,11 @@ const RegisterForm = ({
           id="userName"
           type="text"
           variant="outlined"
-          value={values.userName}
+          value={values.username}
           onChange={handleChange}
           onBlur={handleBlur}
-          error={touched.userName && Boolean(errors.userName)}
-          helperText={touched.userName && errors.userName}
+          error={touched.username && Boolean(errors.username)}
+          helperText={touched.username && errors.username}
           InputProps={{
             sx: {
               color: "white",
