@@ -18,6 +18,7 @@ import {
 import { Form, Formik } from "formik";
 import { useRef } from "react";
 import { style } from "../Brands/ListBrands";
+import Table from "../../components/Table";
 
 const ListSales = () => {
   const { getStock, deleteStock, editStock } = useStockRequest();
@@ -306,7 +307,7 @@ const ListSales = () => {
   ];
 
   const rows = sales?.map((sale) => ({
-    id: sale?._id,
+    name: sale?._id,
     date: sale?.createdAt,
     brand: sale?.brandId?.name,
     product: sale?.productId?.name,
@@ -372,14 +373,15 @@ const ListSales = () => {
         List Of Sales
       </Typography>
       <Box style={{ margin: "auto" }}>
-        <DataGrid
+        {/* <DataGrid
           rows={rows}
           columns={columns}
           pageSize={5}
           // checkboxSelection
           disableSelectionOnClick
-          getRowId={(row) => row.id} //! Her satırı  kimliklendirme
-        />
+          getRowId={(row) => row.name} //! Her satırı  kimliklendirme
+        /> */}
+        <Table rows={rows} columns={columns} />
       </Box>
       {/* EDİTMODE */}
       {editMode && (

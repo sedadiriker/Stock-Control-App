@@ -16,10 +16,9 @@ import {
   TextField,
 } from "@mui/material";
 import { Form, Formik } from "formik";
-import { useRef } from 'react';
+import { useRef } from "react";
 import { style } from "../Brands/ListBrands";
-
-
+import Table from "../../components/Table";
 
 const ListPurchases = () => {
   const { getStock, deleteStock, editStock } = useStockRequest();
@@ -54,12 +53,16 @@ const ListPurchases = () => {
       flex: 1, // içeriğe göre yer kapla
       renderCell: (params) => (
         <Box sx={{ display: "flex", alignItems: "center", height: "100%" }}>
-          <Typography variant="body1" color="black" sx={{
+          <Typography
+            variant="body1"
+            color="black"
+            sx={{
               fontSize: {
                 xs: "10px",
                 md: "15px",
               },
-            }}>
+            }}
+          >
             {new Date(params.value).toLocaleString()}
           </Typography>
         </Box>
@@ -86,12 +89,16 @@ const ListPurchases = () => {
       flex: 1,
       renderCell: (params) => (
         <Box sx={{ display: "flex", alignItems: "center", height: "100%" }}>
-          <Typography variant="body1" color="black" sx={{
+          <Typography
+            variant="body1"
+            color="black"
+            sx={{
               fontSize: {
                 xs: "10px",
                 md: "15px",
               },
-            }}>
+            }}
+          >
             {params.value}
           </Typography>
         </Box>
@@ -118,12 +125,16 @@ const ListPurchases = () => {
       flex: 1,
       renderCell: (params) => (
         <Box sx={{ display: "flex", alignItems: "center", height: "100%" }}>
-          <Typography variant="body1" color="black" sx={{
+          <Typography
+            variant="body1"
+            color="black"
+            sx={{
               fontSize: {
                 xs: "10px",
                 md: "15px",
               },
-            }}>
+            }}
+          >
             {params.value}
           </Typography>
         </Box>
@@ -150,12 +161,16 @@ const ListPurchases = () => {
       flex: 1,
       renderCell: (params) => (
         <Box sx={{ display: "flex", alignItems: "center", height: "100%" }}>
-          <Typography variant="body1" color="black" sx={{
+          <Typography
+            variant="body1"
+            color="black"
+            sx={{
               fontSize: {
                 xs: "10px",
                 md: "15px",
               },
-            }}>
+            }}
+          >
             {params.value}
           </Typography>
         </Box>
@@ -182,12 +197,16 @@ const ListPurchases = () => {
       flex: 1,
       renderCell: (params) => (
         <Box sx={{ display: "flex", alignItems: "center", height: "100%" }}>
-          <Typography variant="body1" color="black" sx={{
+          <Typography
+            variant="body1"
+            color="black"
+            sx={{
               fontSize: {
                 xs: "10px",
                 md: "15px",
               },
-            }}>
+            }}
+          >
             {params.value}
           </Typography>
         </Box>
@@ -214,12 +233,16 @@ const ListPurchases = () => {
       flex: 1,
       renderCell: (params) => (
         <Box sx={{ display: "flex", alignItems: "center", height: "100%" }}>
-          <Typography variant="body1" color="black" sx={{
+          <Typography
+            variant="body1"
+            color="black"
+            sx={{
               fontSize: {
                 xs: "10px",
                 md: "15px",
               },
-            }}>
+            }}
+          >
             {params.value}
           </Typography>
         </Box>
@@ -246,12 +269,16 @@ const ListPurchases = () => {
       flex: 1,
       renderCell: (params) => (
         <Box sx={{ display: "flex", alignItems: "center", height: "100%" }}>
-          <Typography variant="body1" color="black" sx={{
+          <Typography
+            variant="body1"
+            color="black"
+            sx={{
               fontSize: {
                 xs: "10px",
                 md: "15px",
               },
-            }}>
+            }}
+          >
             {params.value}
           </Typography>
         </Box>
@@ -289,17 +316,25 @@ const ListPurchases = () => {
           }}
         >
           <EditIcon
-            sx={{ cursor: "pointer", color: "green", fontSize: {
-              xs: "10px",
-              md: "15px",
-            }, }}
+            sx={{
+              cursor: "pointer",
+              color: "green",
+              fontSize: {
+                xs: "10px",
+                md: "15px",
+              },
+            }}
             onClick={() => handleEditClick(params.row)}
           />
           <DeleteIcon
-            sx={{ cursor: "pointer", color: "brown", fontSize: {
-              xs: "10px",
-              md: "15px",
-            }, }}
+            sx={{
+              cursor: "pointer",
+              color: "brown",
+              fontSize: {
+                xs: "10px",
+                md: "15px",
+              },
+            }}
             onClick={() => handleDeleteConfirmation(params.row)}
           />
         </Box>
@@ -308,7 +343,7 @@ const ListPurchases = () => {
   ];
 
   const rows = purchases?.map((purchase) => ({
-    id: purchase?._id,
+    name: purchase?._id,
     date: purchase?.createdAt,
     firm: purchase?.firmId?.name,
     brand: purchase?.brandId?.name,
@@ -354,15 +389,16 @@ const ListPurchases = () => {
     getStock("products");
   }, []);
 
- 
   return (
-    <Box  sx={{
-      backgroundColor: "#F3F3F3",
-      p: 2,
-      mt: 3,
-      borderRadius: "10px",
-      width: { xs: "100%", md: "100%" },
-    }}>
+    <Box
+      sx={{
+        backgroundColor: "#F3F3F3",
+        p: 2,
+        mt: 3,
+        borderRadius: "10px",
+        width: { xs: "100%", md: "100%" },
+      }}
+    >
       <Typography
         textAlign={"center"}
         color={"brown"}
@@ -375,15 +411,16 @@ const ListPurchases = () => {
         List Of Purchases
       </Typography>
       <Box style={{ height: "70vh", width: "100%", margin: "auto" }}>
-        <DataGrid
+        {/* <DataGrid
           rows={rows}
           columns={columns}
           pageSize={5}
           // checkboxSelection
           disableSelectionOnClick
-          getRowId={(row) => row.id} //! Her satırı  kimliklendirme
+          getRowId={(row) => row.name} //! Her satırı  kimliklendirme
           
-        />
+        /> */}
+        <Table rows={rows} columns={columns} />
       </Box>
       {/* EDİTMODE */}
       {editMode && (
@@ -431,11 +468,11 @@ const ListPurchases = () => {
                   quantity: values.quantity,
                   price: values.price,
                 };
-                editStock("purchases",selectedPurchase.id, formData);
-                console.log("selected",selectedPurchase)
+                editStock("purchases", selectedPurchase.id, formData);
+                console.log("selected", selectedPurchase);
                 actions.resetForm();
                 actions.setSubmitting(false);
-                console.log("form",formData)
+                console.log("form", formData);
               }}
             >
               {({ values, handleChange, handleBlur, isSubmitting }) => (
