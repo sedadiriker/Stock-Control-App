@@ -8,6 +8,7 @@ import { Button, Modal, TextField } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteBrandModal from "../../components/DeleteBrandModal";
+import Table from "../../components/Table";
 
 export const style = {
   position: "absolute",
@@ -22,16 +23,16 @@ export const style = {
 };
 
 const ListBrands = () => {
-  const { editStock, getStock,deleteStock } = useStockRequest();
+  const { editStock, getStock, deleteStock } = useStockRequest();
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [selectedBrand, setSelectedBrand] = useState(null);
-  console.log(selectedBrand)
+  console.log(selectedBrand);
   const [formData, setFormData] = useState({
     name: "",
     image: "",
   });
-  
+
   const { brands } = useSelector((state) => state.stock);
 
   const columns = [
@@ -83,12 +84,16 @@ const ListBrands = () => {
       ),
       flex: 1,
       renderCell: (params) => (
-        <Typography variant="body1" color="black" sx={{
-          fontSize: {
-            xs: "10px",
-            md: "1rem",
-          },
-        }}>
+        <Typography
+          variant="body1"
+          color="black"
+          sx={{
+            fontSize: {
+              xs: "10px",
+              md: "1rem",
+            },
+          }}
+        >
           {params.value}
         </Typography>
       ),
@@ -96,36 +101,45 @@ const ListBrands = () => {
     {
       field: "actions",
       headerName: (
-          <Typography
-            variant="p"
-            color={"#0551B6"}
-            textTransform={"uppercase"}
-            fontWeight={"bold"}
-            sx={{
-              fontSize: {
-                xs: "8px",
-                md: "18px",
-              },
-            }}
-          >
-            Actions
-          </Typography>
+        <Typography
+          variant="p"
+          color={"#0551B6"}
+          textTransform={"uppercase"}
+          fontWeight={"bold"}
+          sx={{
+            fontSize: {
+              xs: "8px",
+              md: "18px",
+            },
+          }}
+        >
+          Actions
+        </Typography>
       ),
       flex: 1,
       renderCell: (params) => (
         <>
           <EditIcon
-            sx={{ cursor: "pointer", color: "green",mx:2,fontSize: {
-              xs: "12px",
-              md: "1.2rem",
-            }, }}
+            sx={{
+              cursor: "pointer",
+              color: "green",
+              mx: 2,
+              fontSize: {
+                xs: "12px",
+                md: "1.2rem",
+              },
+            }}
             onClick={() => handleEditClick(params.row)}
           />
           <DeleteIcon
-            sx={{ cursor: "pointer", color: "brown",fontSize: {
-              xs: "12px",
-              md: "1.2rem",
-            }, }}
+            sx={{
+              cursor: "pointer",
+              color: "brown",
+              fontSize: {
+                xs: "12px",
+                md: "1.2rem",
+              },
+            }}
             onClick={() => handleDeleteConfirmation(params.row)}
           />
         </>
@@ -187,14 +201,16 @@ const ListBrands = () => {
   }, []);
 
   return (
-    <Box sx={{
-      backgroundColor: "#F3F3F3",
-      p: 2,
-      mt: 3,
-      borderRadius: "10px",
-      width: { xs: "100%", md: "80%" },
-      m:"auto"
-    }}>
+    <Box
+      sx={{
+        backgroundColor: "#F3F3F3",
+        p: 2,
+        mt: 3,
+        borderRadius: "10px",
+        width: { xs: "100%", md: "80%" },
+        m: "auto",
+      }}
+    >
       <Typography
         textAlign={"center"}
         color={"brown"}
@@ -202,19 +218,16 @@ const ListBrands = () => {
         fontWeight={"bold"}
         textTransform={"uppercase"}
         my={4}
-        sx={{fontSize:{xs:"14px", md:"1rem"}}}
+        sx={{ fontSize: { xs: "14px", md: "1rem" } }}
       >
         List Of Brands
       </Typography>
-      <Box style={{
+      <Box
+        style={{
           margin: "auto",
-        }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          pageSize={5}
-          getRowId={(row) => row.name} //! Her satırı ismiyle kimliklendirme
-        />
+        }}
+      >
+        <Table rows={rows} columns={columns} />
       </Box>
 
       {/* EDİTMODE */}
@@ -260,9 +273,14 @@ const ListBrands = () => {
           </Box>
         </Modal>
       )}
-      
+
       {/* DELETEMODE */}
-      <DeleteBrandModal selectedBrand={selectedBrand} deleteConfirmationOpen={deleteConfirmationOpen} handleDelete={handleDelete} handleCancelDelete={handleCancelDelete}/>
+      <DeleteBrandModal
+        selectedBrand={selectedBrand}
+        deleteConfirmationOpen={deleteConfirmationOpen}
+        handleDelete={handleDelete}
+        handleCancelDelete={handleCancelDelete}
+      />
     </Box>
   );
 };

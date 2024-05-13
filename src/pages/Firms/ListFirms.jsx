@@ -4,6 +4,7 @@ import { Box, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import FirmDetailModal from "../../components/FirmDetailModal";
 import { useEffect, useState } from "react";
+import Table from "../../components/Table";
 
 const ListFirms = () => {
   const [selectedFirm, setSelectedFirm] = useState(null);
@@ -41,7 +42,7 @@ const ListFirms = () => {
               xs: "10px",
               md: "15px",
             },
-            cursor:"pointer"
+            cursor: "pointer",
           }}
         >
           {params.value}
@@ -76,7 +77,7 @@ const ListFirms = () => {
               xs: "10px",
               md: "15px",
             },
-            cursor:"pointer"
+            cursor: "pointer",
           }}
         >
           {params.value}
@@ -111,7 +112,7 @@ const ListFirms = () => {
         mt: 3,
         borderRadius: "10px",
         width: { xs: "100%", md: "80%" },
-        m:"auto"
+        m: "auto",
       }}
     >
       {" "}
@@ -127,19 +128,20 @@ const ListFirms = () => {
         List Of Firms
       </Typography>
       <Box style={{ margin: "auto" }}>
-        <DataGrid
+        {/* <DataGrid
           rows={rows}
           columns={columns}
           pageSize={5}
           getRowId={(row) => row.id} //! Her satırı  kimliklendirme
           onRowClick={handleRowClick}
-        />
+        /> */}
+        <Table rows={rows} columns={columns} handleRowClick={handleRowClick} />
       </Box>
       <Typography
         fontSize={"14px"}
         mt={2}
         textAlign={"end"}
-        sx={{pr:{xs:0,md:5}}}
+        sx={{ pr: { xs: 0, md: 5 } }}
         color={"brown"}
       >
         Click on a firm row for firm details.

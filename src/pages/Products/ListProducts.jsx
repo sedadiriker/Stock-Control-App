@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteProductModal from "../../components/DeleteProductModal";
+import Table from "../../components/Table";
 
 const ListProducts = () => {
   const { getStock, deleteStock } = useStockRequest();
@@ -253,14 +254,7 @@ const ListProducts = () => {
           margin: "auto",
         }}
       >
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          pageSize={5}
-          getRowId={(row) => row.name} //! Her satırı ismiyle kimliklendirme
-          autoHeight
-          autoPageSize
-        />
+       <Table rows={rows} columns={columns}/>
       </Box>
       {/* DELETEMODE */}
       <DeleteProductModal

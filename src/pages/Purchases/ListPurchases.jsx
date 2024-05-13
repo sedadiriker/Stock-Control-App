@@ -382,8 +382,7 @@ const ListPurchases = () => {
           // checkboxSelection
           disableSelectionOnClick
           getRowId={(row) => row.id} //! Her satırı  kimliklendirme
-          autoHeight
-          autoPageSize
+          
         />
       </Box>
       {/* EDİTMODE */}
