@@ -307,7 +307,7 @@ const ListSales = () => {
   ];
 
   const rows = sales?.map((sale) => ({
-    name: sale?._id,
+    name: sale._id,
     date: sale?.createdAt,
     brand: sale?.brandId?.name,
     product: sale?.productId?.name,
@@ -336,7 +336,7 @@ const ListSales = () => {
   };
 
   const handleDelete = () => {
-    deleteStock("sales", selectedSales.id);
+    deleteStock("sales", selectedSales.name);
     setDeleteConfirmationOpen(false);
   };
 
@@ -346,7 +346,7 @@ const ListSales = () => {
   };
 
   useEffect(() => {
-    getStock("purchases");
+    getStock("sales");
     getStock("brands");
     getStock("products");
   }, []);
@@ -424,7 +424,7 @@ const ListSales = () => {
                   quantity: values.quantity,
                   price: values.price,
                 };
-                editStock("sales", selectedSales.id, formData);
+                editStock("sales", selectedSales.name, formData);
                 console.log("selected", selectedSales);
                 actions.resetForm();
                 actions.setSubmitting(false);

@@ -373,7 +373,7 @@ const ListPurchases = () => {
   };
 
   const handleDelete = () => {
-    deleteStock("purchases", selectedPurchase.id);
+    deleteStock("purchases", selectedPurchase.name);
     setDeleteConfirmationOpen(false);
   };
 
@@ -468,7 +468,7 @@ const ListPurchases = () => {
                   quantity: values.quantity,
                   price: values.price,
                 };
-                editStock("purchases", selectedPurchase.id, formData);
+                editStock("purchases", selectedPurchase.name, formData);
                 console.log("selected", selectedPurchase);
                 actions.resetForm();
                 actions.setSubmitting(false);
