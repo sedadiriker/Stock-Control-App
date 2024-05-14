@@ -346,7 +346,7 @@ const ListSales = () => {
   };
 
   useEffect(() => {
-    getStock("purchases");
+    getStock("sales");
     getStock("brands");
     getStock("products");
   }, []);
