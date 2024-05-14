@@ -1,4 +1,4 @@
-import { Box, Button, Modal, Typography } from '@mui/material'
+ import { Box, Button, Modal, Typography } from '@mui/material'
 import { style } from '../pages/Brands/ListBrands'
 const DeleteProductModal = ({selectedProduct,deleteConfirmationOpen,handleCancelDelete,handleDelete}) => {
   return (

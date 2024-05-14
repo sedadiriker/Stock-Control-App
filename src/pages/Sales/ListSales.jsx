@@ -336,7 +336,7 @@ const ListSales = () => {
   };
 
   const handleDelete = () => {
-    deleteStock("sales", selectedSales.id);
+    deleteStock("sales", selectedSales.name);
     setDeleteConfirmationOpen(false);
   };
 
@@ -373,14 +373,6 @@ const ListSales = () => {
         List Of Sales
       </Typography>
       <Box style={{ margin: "auto" }}>
-        {/* <DataGrid
-          rows={rows}
-          columns={columns}
-          pageSize={5}
-          // checkboxSelection
-          disableSelectionOnClick
-          getRowId={(row) => row.name} //! Her satırı  kimliklendirme
-        /> */}
         <Table rows={rows} columns={columns} />
       </Box>
       {/* EDİTMODE */}
@@ -424,7 +416,7 @@ const ListSales = () => {
                   quantity: values.quantity,
                   price: values.price,
                 };
-                editStock("sales", selectedSales.id, formData);
+                editStock("sales", selectedSales.name, formData);
                 console.log("selected", selectedSales);
                 actions.resetForm();
                 actions.setSubmitting(false);

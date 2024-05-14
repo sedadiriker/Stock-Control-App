@@ -3,7 +3,6 @@ import Typography from "@mui/material/Typography";
 import { useSelector } from "react-redux";
 import useStockRequest from "../../services/useStockRequest";
 import { useState, useEffect } from "react";
-import { DataGrid } from "@mui/x-data-grid";
 import { Button, Modal, TextField } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -27,7 +26,9 @@ const ListBrands = () => {
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [selectedBrand, setSelectedBrand] = useState(null);
-  console.log(selectedBrand);
+  // console.log(selectedBrand);
+
+  //?editle gönderilecek data
   const [formData, setFormData] = useState({
     name: "",
     image: "",
@@ -161,6 +162,7 @@ const ListBrands = () => {
     setSelectedBrand(null);
     setDeleteConfirmationOpen(false);
   };
+
   const handleDeleteConfirmation = (row) => {
     const selectBrand = brands.find((brand) => brand.name === row.name);
     if (selectBrand) {
@@ -176,7 +178,7 @@ const ListBrands = () => {
     setFormData({ ...row });
     const selectedBrand = brands.find((brand) => brand.name === row.name);
     setSelectedBrand(selectedBrand);
-    console.log(selectedBrand);
+    // console.log(selectedBrand);
   };
 
   const handleSaveEdit = () => {

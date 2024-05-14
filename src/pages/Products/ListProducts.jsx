@@ -3,7 +3,6 @@ import Typography from "@mui/material/Typography";
 import { useSelector } from "react-redux";
 import useStockRequest from "../../services/useStockRequest";
 import { useState, useEffect } from "react";
-import { DataGrid } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteProductModal from "../../components/DeleteProductModal";
 import Table from "../../components/Table";
@@ -50,6 +49,7 @@ const ListProducts = () => {
           </Typography>
         </Box>
       ),
+      // valueGetter:(value) => value
     },
     {
       field: "category",
